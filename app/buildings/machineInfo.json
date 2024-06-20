@@ -1,0 +1,82 @@
+[
+  {
+    "building": "Sontag",
+    "washers": 4,
+    "dryers": 4
+  },
+  {
+    "building": "Walker",
+    "washers": 8,
+    "dryers": 8
+  },
+  {
+    "building": "Clark I",
+    "washers": 4,
+    "dryers": 4
+  },
+  {
+    "building": "Frary",
+    "washers": 5,
+    "dryers": 7
+  },
+  {
+    "building": "Clark III",
+    "washers": 1,
+    "dryers": 1
+  },
+  {
+    "building": "Dialynas",
+    "washers": 4,
+    "dryers": 4
+  },
+  {
+    "building": "Walton Commons",
+    "washers": 6,
+    "dryers": 6
+  },
+  {
+    "building": "Harwood",
+    "washers": 7,
+    "dryers": 8
+  },
+  {
+    "building": "Lyon",
+    "washers": 6,
+    "dryers": 8
+  },
+  {
+    "building": "Mudd",
+    "washers": 4,
+    "dryers": 4
+  },
+  {
+    "building": "Blaisdell",
+    "washers": 4,
+    "dryers": 6
+  },
+  {
+    "building": "Lyon",
+    "washers": 6,
+    "dryers": 8
+  },
+  {
+    "building": "Oldenborg Room 1",
+    "washers": 4,
+    "dryers": 2
+  },
+  {
+    "building": "Oldenborg Room 2",
+    "washers": 4,
+    "dryers": 2
+  },
+  {
+    "building": "Smiley",
+    "washers": 2,
+    "dryers": 2
+  },
+  {
+    "building": "Wig",
+    "washers": 4,
+    "dryers": 4
+  }
+]
