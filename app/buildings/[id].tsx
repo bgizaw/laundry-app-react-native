@@ -1,9 +1,8 @@
 import { Link, useLocalSearchParams } from "expo-router"
 import { Text, View } from "react-native"
-import data from "../machineInfo.json"
+import data from "./machineInfo.json"
 
 // create object from json file and create usable variables based on the data
-const currBuilding = useLocalSearchParams()
 
 // const buildingObj = data.find(i => i.building === currBuilding)!
 // const numberOfWashers: number = buildingObj.washers
@@ -50,16 +49,30 @@ const currBuilding = useLocalSearchParams()
 // })
 
 const BuildingPage = () => {
+  const { url } = useLocalSearchParams()
   return (
     <View>
       <Text style={{ fontSize: 30 }}>buillding</Text>
       <Text style={{ fontSize: 20 }}>Washers</Text>
       {/* {ListWasherLinks} */}
-
       <Text style={{ fontSize: 20 }}>Dryers</Text>
       {/* {ListDryerLinks} */}
     </View>
   )
 }
+
+// const Clark1WasherPage = () => {
+//   const { id } = useLocalSearchParams()
+
+//   console.log(id)
+
+//   return (
+//     <View>
+//       <Text style={{ fontSize: 30 }}>
+//         {buildingObj?.building} {id}
+//       </Text>
+//     </View>
+//   )
+// }
 
 export default BuildingPage

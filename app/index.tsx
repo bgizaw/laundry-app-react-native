@@ -25,7 +25,7 @@ const ListofBuildings = buildingNames.map(building => {
   return (
     <Link
       href={{
-        pathname: "buildings/building/[id]",
+        pathname: "buildings/[id]",
         params: { id: building },
       }}
       key={building}
