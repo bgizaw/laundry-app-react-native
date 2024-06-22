@@ -1,4 +1,4 @@
-import { Link } from "expo-router"
+import { Link, useLocalSearchParams } from "expo-router"
 import { Text, View } from "react-native"
 import data from "./machineInfo.json"
 

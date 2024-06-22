@@ -23,7 +23,7 @@ const buildingObj = data.find(i => i.building === "Clark I")
 
 const Clark1WasherPage = () => {
   const { id } = useLocalSearchParams()
-
+  console.log(id)
   return (
     <View>
       <Text style={{ fontSize: 30 }}>
