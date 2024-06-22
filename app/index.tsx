@@ -1,34 +1,47 @@
-import { Link } from "expo-router"
+import { Link, useLocalSearchParams } from "expo-router"
 import { Text, View } from "react-native"
 import data from "./buildings/machineInfo.json"
+import database from "./buildings/firestoreInitialize"
+import { collection } from "firebase/firestore"
 
-for (let buildingIndex = 0; buildingIndex <= data.length; buildingIndex++) {
-  let currentBuilding = data[buildingIndex]
-}
+const buildingNames = [
+  "Sontag",
+  "Dialynas",
+  "Clark I",
+  "Clark III",
+  "Walton Commons",
+  "Frary",
+  "Smiley",
+  "Harwood",
+  "Lyon",
+  "Mudd",
+  "Blaisdell",
+  "Oldenborg Room 1",
+  "Oldenborg Room 2",
+  "Wig",
+]
 
-// const ListofBuildings = data.map(building => {
-//     return (
-//       <Link
-//         href={{
-//           pathname: "buildings/[id]",
-//           params: { id: building },
-//         }}
-//         key={building}
-//       >
-//         {building}
-//       </Link>
-//     )
-//   })
+const ListofBuildings = buildingNames.map(building => {
+  return (
+    <Link
+      href={{
+        pathname: "buildings/building/[id]",
+        params: { id: building },
+      }}
+      key={building}
+    >
+      {building}
+    </Link>
+  )
+})
 
 const Homepage = () => {
   return (
     <View>
       <Text style={{ fontSize: 30 }}>Buildings</Text>
-      <Link href="buildings/clark1">Clark I</Link>
+      {ListofBuildings}
     </View>
   )
 }
-
-console.log(Homepage)
 
 export default Homepage
