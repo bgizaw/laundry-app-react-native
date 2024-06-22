@@ -50,9 +50,10 @@ import data from "./machineInfo.json"
 
 const BuildingPage = () => {
   const { url } = useLocalSearchParams()
+  console.log(url)
   return (
     <View>
-      <Text style={{ fontSize: 30 }}>buillding</Text>
+      <Text style={{ fontSize: 30 }}>building</Text>
       <Text style={{ fontSize: 20 }}>Washers</Text>
       {/* {ListWasherLinks} */}
       <Text style={{ fontSize: 20 }}>Dryers</Text>
