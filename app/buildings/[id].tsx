@@ -2,13 +2,19 @@ import { Link, useLocalSearchParams } from "expo-router"
 import { Text, View } from "react-native"
 import data from "./machineInfo.json"
 import Building from "../buildingName"
+import buildingClass from "./BuildingClass"
+
 
 // create object from json file and create usable variables based on the data
 const currBuilding = Building.buildingName
 
-const buildingObj = data.find(i => i.building === currBuilding)!
-const numberOfWashers: number = buildingObj.washers && buildingObj.washers
-const numberOfDryers: number = buildingObj.dryers && buildingObj.dryers
+
+
+const buildingClass1 = data.find(i => i.building === currBuilding)! as buildingClass
+console.log("washers num is", buildingClass1.getWasher)
+// console.log("dryers num is", buildingClass1.dryers)
+const numberOfWashers: number = 4 //buildingObj.washers && buildingObj.washers
+const numberOfDryers: number = 4 //buildingObj.dryers && buildingObj.dryers
 const washers: string[] = []
 const dryers: string[] = []
 
