@@ -1,8 +1,9 @@
 import { Link, useLocalSearchParams } from "expo-router"
-import { Text, View } from "react-native"
+import { Text, View, Pressable } from "react-native"
 import data from "./buildings/machineInfo.json"
 import database from "./buildings/firestoreInitialize"
 import { collection } from "firebase/firestore"
+import Building from "./buildingName"
 
 const buildingNames = [
   "Sontag",
@@ -29,8 +30,15 @@ const ListofBuildings = buildingNames.map(building => {
         params: { id: building },
       }}
       key={building}
+      asChild
     >
-      {building}
+      <Pressable
+        onPress={() => {
+          Building.buildingName = building
+        }}
+      >
+        <Text>{building}</Text>
+      </Pressable>
     </Link>
   )
 })
