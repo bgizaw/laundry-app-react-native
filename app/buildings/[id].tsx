@@ -3,12 +3,40 @@ import { Text, View } from "react-native"
 import data from "./machineInfo.json"
 import Building from "../buildingName"
 
-// create object from json file and create usable variables based on the data
-const currBuilding = Building.buildingName
+// goes here after user presses the building they want
 
-const buildingObj = data.find(i => i.building === currBuilding)!
-const numberOfWashers: number = buildingObj.washers && buildingObj.washers
-const numberOfDryers: number = buildingObj.dryers && buildingObj.dryers
+// make a function to create a folder if it already does not exisit
+
+// create object from json file and create usable variables based on the data
+// const {id} = useLocalSearchParams<{id: string }>()
+
+console.log(window.location.pathname.split('/'))
+const currBuilding = window.location.pathname.split('/')[2];
+Building.updateBuildingName(currBuilding);
+console.log(currBuilding)
+// console.log(currentUrl)
+// const currBuilding = Building.buildingName // curr building is what the user chose
+console.log("static variable check" + Building.buildingName)
+console.log("curr building: " + currBuilding) // curr building is null
+
+// const newFolder = (currBuilding) => {
+  
+// }
+
+const buildingObj = data.find(i => i.building === currBuilding)! // saves stuff from json file
+if (!buildingObj) {
+  console.error(`Building ${currBuilding} not found in data.`);
+} else {
+  console.log("Building: " + buildingObj.building);
+  console.log("Washer num: " + buildingObj.washers);
+  console.log("Dryer num: " + buildingObj.dryers);
+}
+
+// console.log("building " + buildingObj.building)
+// console.log("washer num" + buildingObj.washers)
+// console.log("dryer num" + buildingObj.dryers)
+const numberOfWashers: number = 4 //buildingObj.washers 
+const numberOfDryers: number = 4 // buildingObj.dryers 
 const washers: string[] = []
 const dryers: string[] = []
 
@@ -26,7 +54,7 @@ const ListWasherLinks = washers.map(washer => {
   return (
     <Link
       href={{
-        pathname: "buildings/" + currBuilding + "/building/Washer/[id]",
+        pathname: "buildings/building/" + currBuilding + "/building/Washer/[id]",
         params: { id: washer },
       }}
       key={washer}
@@ -36,28 +64,28 @@ const ListWasherLinks = washers.map(washer => {
   )
 })
 
-// const ListDryerLinks = dryers.map(dryer => {
-//   return (
-//     <Link
-//       href={{
-//         pathname: "buildings/building/" + currBuilding + "/Dryer/[id]",
-//         params: { id: dryer },
-//       }}
-//       key={dryer}
-//     >
-//       {dryer}
-//     </Link>
-//   )
-// })
+const ListDryerLinks = dryers.map(dryer => {
+  return (
+    <Link
+      href={{
+        pathname: "buildings/" + currBuilding + "/Dryer/[id]",
+        params: { id: dryer },
+      }}
+      key={dryer}
+    >
+      {dryer}
+    </Link>
+  )
+})
 
 const BuildingPage = () => {
   return (
     <View>
-      <Text style={{ fontSize: 30 }}>building</Text>
+      <Text style={{ fontSize: 30 }}>{ currBuilding }</Text>
       <Text style={{ fontSize: 20 }}>Washers</Text>
       {ListWasherLinks}
       <Text style={{ fontSize: 20 }}>Dryers</Text>
-      {/* {ListDryerLinks} */}
+      {ListDryerLinks}
     </View>
   )
 }
