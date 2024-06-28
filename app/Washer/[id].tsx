@@ -1,6 +1,6 @@
 import { Text, View } from "react-native"
 import { useLocalSearchParams } from "expo-router"
-import data from "../../machineInfo.json"
+import data from "../machineInfo.json"
 import { getDocs, addDoc } from "firebase/firestore"
 // import collectionRef from "../firestoreCollectionAccess"
 
