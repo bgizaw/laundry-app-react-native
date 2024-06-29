@@ -119,21 +119,16 @@ const machineCounter = (
 // return WashersNum
 
 const BuildingPage = () => {
-  let buildingInstance: Building | undefined
   const washers: string[] = []
   const dryers: string[] = []
   let buildingNameObject = useLocalSearchParams()
   let nameOfBuilding = buildingNameObject.id as string
 
   const TrackBuildingName = (buildingName: string) => {
-    try {
-      let collectionRef = collection(database, buildingName)
-      buildingInstance = new Building(buildingName)
-      buildingInstance.database = collectionRef
-      return buildingInstance
-    } catch {
-      buildingInstance = undefined
-    }
+    let collectionRef = collection(database, buildingName)
+    let buildingInstance = new Building(buildingName)
+    buildingInstance.database = collectionRef
+    return buildingInstance
   }
   // the .then() unpacks the promise returned by machineCounter() and logs it
   machineCounter(TrackBuildingName(nameOfBuilding)!.database!).then(
