@@ -29,19 +29,21 @@ import Building from "./Classes/Building"
 // }
 
 // create a jsx list of links that each dynamically leads to a page for the specific washer
-// const ListWasherLinks = washers.map(washer => {
-//   return (
-//     <Link
-//       href={{
-//         pathname: "buildings/" + currBuilding + "/building/Washer/[id]",
-//         params: { id: washer },
-//       }}
-//       key={washer}
-//     >
-//       {washer}
-//     </Link>
-//   )
-// })
+// const ListWasherLinks = () => {
+//   washers.map(washer => {
+//     return (
+//       <Link
+//         href={{
+//           pathname: "Washer/[id]",
+//           params: { id: washer },
+//         }}
+//         key={washer}
+//       >
+//         {washer}
+//       </Link>
+//     )
+//   })
+// }
 
 // const ListDryerLinks = dryers.map(dryer => {
 //   return (
@@ -80,7 +82,7 @@ const machineCounter = (
       // console.log("numDryers", dryerCount)
       // washersNum = washerCount
       // dryersNum = dryerCount
-      return Promise.resolve({ washerCount, dryerCount })
+      return await { washerCount, dryerCount }
     } catch (error) {
       console.log("Error:", error)
     }
@@ -117,19 +119,40 @@ const machineCounter = (
 // return WashersNum
 
 const BuildingPage = () => {
+  let buildingInstance: Building | undefined
+  const washers: string[] = []
+  const dryers: string[] = []
   let buildingNameObject = useLocalSearchParams()
   let nameOfBuilding = buildingNameObject.id as string
 
   const TrackBuildingName = (buildingName: string) => {
-    let collectionRef = collection(database, buildingName)
-    let buildingInstance = new Building(buildingName)
-    buildingInstance.database = collectionRef
-    return buildingInstance
+    try {
+      let collectionRef = collection(database, buildingName)
+      buildingInstance = new Building(buildingName)
+      buildingInstance.database = collectionRef
+      return buildingInstance
+    } catch {
+      buildingInstance = undefined
+    }
   }
-  console.log(machineCounter(TrackBuildingName(nameOfBuilding).database!))
-  // let bldgObj = TrackBuildingName(nameOfBuilding)
-  // bldgObj.machineCounter(bldgObj.database!)
-  // console.log(bldgObj.washerNum)
+  // the .then() unpacks the promise returned by machineCounter() and logs it
+  machineCounter(TrackBuildingName(nameOfBuilding)!.database!).then(
+    machineCount => {
+      console.log(machineCount)
+    }
+    //   for (
+    //     let washerId = 1;
+    //     washerId <= machineCount?.washerCount!;
+    //     washerId++
+    //   ) {
+    //     buildingInstance!.washersList.push(`Washer ${washerId}`)
+    //   }
+    //   for (let dryerId = 1; dryerId <= machineCount?.dryerCount!; dryerId++) {
+    //     dryers.push(`Washer ${dryerId}`)
+    //   }
+    // }
+  )
+  // console.log(buildingInstance!.washersList.length)
 
   return (
     <View>

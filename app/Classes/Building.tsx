@@ -5,6 +5,8 @@ class Building {
   public database?: CollectionReference<DocumentData, DocumentData>
   public washerNum: number = 0
   public dryerNum: number = 0
+  public washersList: string[] = []
+  public dryersList: string[] = []
 
   constructor(
     buildingName: string,
