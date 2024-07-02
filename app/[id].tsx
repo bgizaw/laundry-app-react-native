@@ -124,10 +124,10 @@ interface WasherDryerObject {
   dryerCount: number
 }
 
-const BuildingPage = () => {
+const BuildingPage = async () => {
   let buildingNameObject = useLocalSearchParams()
   let nameOfBuilding = buildingNameObject.id as string
-  let x: WasherDryerObject
+  let washers = 0
 
   const TrackBuildingName = (buildingName: string) => {
     let collectionRef = collection(database, buildingName)
@@ -135,10 +135,11 @@ const BuildingPage = () => {
     buildingInstance.database = collectionRef
     return buildingInstance
   }
+  async function WashersAndDryers() {
+    return MachineCounter(TrackBuildingName(nameOfBuilding).database!)
+  }
 
-  MachineCounter(TrackBuildingName(nameOfBuilding).database!).then(machines =>
-    console.log(machines)
-  )
+  // WashersAndDryers().then(machines => )
 
   // const Machines = async () => {
   //   const machines = await MachineCounter(
@@ -179,7 +180,6 @@ const BuildingPage = () => {
 
   // let washerArray = WasherAndDryerLists(MachineObjectFunction())
   // console.log(washerArray)
-
   return (
     <View>
       <Text style={{ fontSize: 30 }}>building</Text>
