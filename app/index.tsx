@@ -1,10 +1,13 @@
 import { Link, useLocalSearchParams } from "expo-router"
 import { useState } from 'react'
 import { Text, View, Pressable } from "react-native"
-import data from "./buildings/machineInfo.json"
-import database from "./buildings/firestoreInitialize"
-import { collection } from "firebase/firestore"
-import Building from "./buildingName"
+import database from "./firebase/firestoreInitialize"
+import {
+  CollectionReference,
+  DocumentData,
+  collection,
+} from "firebase/firestore"
+import Building from "./Classes/Building"
 
 const buildingNames = [
   "Sontag",
@@ -13,6 +16,7 @@ const buildingNames = [
   "Clark III",
   "Walton Commons",
   "Frary",
+  "Walker",
   "Smiley",
   "Harwood",
   "Lyon",
@@ -23,27 +27,18 @@ const buildingNames = [
   "Wig",
 ]
 
+const TrackBuildingName = (buildingName: string) => {
+  let collectionRef = collection(database, buildingName)
+  let buildingInstance = new Building(buildingName)
+  buildingInstance.database = collectionRef
+  return buildingInstance
+}
 
-// creates a list of buildings. for each building, a link is dynamically created with all the routing
 const ListofBuildings = buildingNames.map(building => {
   return (
-    <Link
-      href={{
-        pathname: "buildings/[id]",
-        params: { id: building },
-      }}
-      key={building} // need this for react
-      asChild // makes sure that the child component (Pressable) behaves as a clickable link
-    > 
-      <Pressable // when you press the building, it makes an object and saves the building name within the object
-        onPress={() => {
-          Building.updateBuildingName(building)
-          // console.log("pressed building " + building)
-          // console.log("updated static " + Building.buildingName)
-        }}
-      > 
-        <Text>{building}</Text> 
-      </Pressable>
+    <Link href={`/${building}`} key={building}>
+      <Pressable onPress={() => TrackBuildingName(building)}></Pressable>
+      {building}
     </Link>
   )
 })
