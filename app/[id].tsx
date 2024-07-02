@@ -124,7 +124,7 @@ interface WasherDryerObject {
   dryerCount: number
 }
 
-const BuildingPage = async () => {
+const BuildingPage = () => {
   let buildingNameObject = useLocalSearchParams()
   let nameOfBuilding = buildingNameObject.id as string
   let washers = 0
@@ -135,9 +135,9 @@ const BuildingPage = async () => {
     buildingInstance.database = collectionRef
     return buildingInstance
   }
-  async function WashersAndDryers() {
-    return MachineCounter(TrackBuildingName(nameOfBuilding).database!)
-  }
+  MachineCounter(TrackBuildingName(nameOfBuilding).database!).then(machines =>
+    console.log(machines)
+  )
 
   // WashersAndDryers().then(machines => )
 
