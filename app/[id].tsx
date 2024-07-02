@@ -124,22 +124,39 @@ interface WasherDryerObject {
   dryerCount: number
 }
 
-const BuildingPage = () => {
-  let buildingNameObject = useLocalSearchParams()
-  let nameOfBuilding = buildingNameObject.id as string
-  let x: WasherDryerObject
+let buildingNameObject = useLocalSearchParams()
+let nameOfBuilding = buildingNameObject.id as string
 
-  const TrackBuildingName = (buildingName: string) => {
-    let collectionRef = collection(database, buildingName)
-    let buildingInstance = new Building(buildingName)
-    buildingInstance.database = collectionRef
-    return buildingInstance
+const TrackBuildingName = (buildingName: string) => {
+  let collectionRef = collection(database, buildingName)
+  let buildingInstance = new Building(buildingName)
+  buildingInstance.database = collectionRef
+  return buildingInstance
+}
+
+const ListWasherLinks = (machines: WasherDryerObject) => {
+  let washers = []
+  for (let washerId = 0; washerId <= machines?.washerCount!; washerId++) {
+    washers.push(
+      <Link href={`Washer/Washer ${washerId}`}>{`Washer ${washerId}`}</Link>
+    )
   }
+  return washers
+}
 
-  MachineCounter(TrackBuildingName(nameOfBuilding).database!).then(machines =>
-    console.log(machines)
-  )
+// const ListDryerLinks = (machines: WasherDryerObject) => {
+//   let dryers = []
+//   for (let dryerId = 0; dryerId <= machines?.washerCount!; dryerId++) {
+//     dryers.push(
+//       <Link href={`Dryer/Dryer ${dryerId}`}>{`Washer ${dryerId}`}</Link>
+//     )
+//   }
+//   return dryers
+// }
 
+// MachineCounter(TrackBuildingName(nameOfBuilding).database!).then(machines => {})
+
+const BuildingPage = () => {
   // const Machines = async () => {
   //   const machines = await MachineCounter(
   //     TrackBuildingName(nameOfBuilding).database!
