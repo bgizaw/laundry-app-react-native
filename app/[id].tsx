@@ -9,6 +9,7 @@ import {
 } from "firebase/firestore"
 import database from "./firebase/firestoreInitialize"
 import Building from "./Classes/Building"
+import { useEffect } from "react"
 
 // create object from json file and create usable variables based on the data
 // const currBuilding = Building.buildingName
@@ -59,7 +60,7 @@ import Building from "./Classes/Building"
 //   )
 // })
 
-const machineCounter = (
+const MachineCounter = (
   collectionRef: CollectionReference<DocumentData, DocumentData>
 ) => {
   let washersNum: number = 0
@@ -118,11 +119,15 @@ const machineCounter = (
 // })
 // return WashersNum
 
+interface WasherDryerObject {
+  washerCount: number
+  dryerCount: number
+}
+
 const BuildingPage = () => {
-  const washers: string[] = []
-  const dryers: string[] = []
   let buildingNameObject = useLocalSearchParams()
   let nameOfBuilding = buildingNameObject.id as string
+  let x: WasherDryerObject
 
   const TrackBuildingName = (buildingName: string) => {
     let collectionRef = collection(database, buildingName)
@@ -130,24 +135,50 @@ const BuildingPage = () => {
     buildingInstance.database = collectionRef
     return buildingInstance
   }
-  // the .then() unpacks the promise returned by machineCounter() and logs it
-  machineCounter(TrackBuildingName(nameOfBuilding)!.database!).then(
-    machineCount => {
-      console.log(machineCount)
-    }
-    //   for (
-    //     let washerId = 1;
-    //     washerId <= machineCount?.washerCount!;
-    //     washerId++
-    //   ) {
-    //     buildingInstance!.washersList.push(`Washer ${washerId}`)
-    //   }
-    //   for (let dryerId = 1; dryerId <= machineCount?.dryerCount!; dryerId++) {
-    //     dryers.push(`Washer ${dryerId}`)
-    //   }
-    // }
+
+  MachineCounter(TrackBuildingName(nameOfBuilding).database!).then(machines =>
+    console.log(machines)
   )
-  // console.log(buildingInstance!.washersList.length)
+
+  // const Machines = async () => {
+  //   const machines = await MachineCounter(
+  //     TrackBuildingName(nameOfBuilding).database!
+  //   )
+  //   return await machines
+  // }
+
+  // console.log(Machines())
+  // the .then() unpacks the promise returned by machineCounter() and logs it
+  // const MachineObjectFunction = () => {
+  //   const machineObject = MachineCounter(
+  //     TrackBuildingName(nameOfBuilding)!.database!
+  //   )
+  //   return machineObject
+  // }
+
+  // interface WasherDryerObject {
+  //   washerCount: number
+  //   dryerCount: number
+  // }
+
+  // const WasherAndDryerLists = (
+  //   washersAndDryers: WasherDryerObject | undefined
+  // ) => {
+  //   const washerArray: string[] = []
+  //   for (
+  //     let washerId = 1;
+  //     washerId <= washersAndDryers?.washerCount!;
+  //     washerId++
+  //   ) {
+  //     washerArray.push(`Washer ${washerId}`)
+  //   }
+  //   return washerArray
+  // for (let dryerId = 1; dryerId <= machineCount?.dryerCount!; dryerId++) {
+  //   dryers.push(`Washer ${dryerId}`)
+  // }
+
+  // let washerArray = WasherAndDryerLists(MachineObjectFunction())
+  // console.log(washerArray)
 
   return (
     <View>

@@ -15,6 +15,7 @@ const buildingNames = [
   "Clark III",
   "Walton Commons",
   "Frary",
+  "Walker",
   "Smiley",
   "Harwood",
   "Lyon",
