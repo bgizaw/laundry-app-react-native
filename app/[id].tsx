@@ -79,11 +79,15 @@ const MachineCounter = (
           dryerCount++
         }
       })
+      let room: WasherDryerObject = {
+        washerCount: washerCount,
+        dryerCount: dryerCount,
+      }
       // console.log("numWashers", washerCount)
       // console.log("numDryers", dryerCount)
       // washersNum = washerCount
       // dryersNum = dryerCount
-      return await { washerCount, dryerCount }
+      return room
     } catch (error) {
       console.log("Error:", error)
     }
@@ -154,53 +158,60 @@ const ListWasherLinks = (machines: WasherDryerObject) => {
 //   return dryers
 // }
 
-// MachineCounter(TrackBuildingName(nameOfBuilding).database!).then(machines => {})
+const machineCount = async () => {
+  MachineCounter(TrackBuildingName(nameOfBuilding).database!).then(machines =>
+    BuildingPage(machines!)
+  )
+}
 
-const BuildingPage = () => {
-  // const Machines = async () => {
-  //   const machines = await MachineCounter(
-  //     TrackBuildingName(nameOfBuilding).database!
-  //   )
-  //   return await machines
-  // }
+// let x = machineCount()
+const BuildingPage = (machines: WasherDryerObject) => {
+  //   // const Machines = async () => {
+  //   //   const machines = await MachineCounter(
+  //   //     TrackBuildingName(nameOfBuilding).database!
+  //   //   )
+  //   //   return await machines
+  //   // }
 
-  // console.log(Machines())
-  // the .then() unpacks the promise returned by machineCounter() and logs it
-  // const MachineObjectFunction = () => {
-  //   const machineObject = MachineCounter(
-  //     TrackBuildingName(nameOfBuilding)!.database!
-  //   )
-  //   return machineObject
-  // }
+  //   // console.log(Machines())
+  //   // the .then() unpacks the promise returned by machineCounter() and logs it
+  //   // const MachineObjectFunction = () => {
+  //   //   const machineObject = MachineCounter(
+  //   //     TrackBuildingName(nameOfBuilding)!.database!
+  //   //   )
+  //   //   return machineObject
+  //   // }
 
-  // interface WasherDryerObject {
-  //   washerCount: number
-  //   dryerCount: number
-  // }
+  //   // interface WasherDryerObject {
+  //   //   washerCount: number
+  //   //   dryerCount: number
+  //   // }
 
-  // const WasherAndDryerLists = (
-  //   washersAndDryers: WasherDryerObject | undefined
-  // ) => {
-  //   const washerArray: string[] = []
-  //   for (
-  //     let washerId = 1;
-  //     washerId <= washersAndDryers?.washerCount!;
-  //     washerId++
-  //   ) {
-  //     washerArray.push(`Washer ${washerId}`)
-  //   }
-  //   return washerArray
-  // for (let dryerId = 1; dryerId <= machineCount?.dryerCount!; dryerId++) {
-  //   dryers.push(`Washer ${dryerId}`)
-  // }
+  //   // const WasherAndDryerLists = (
+  //   //   washersAndDryers: WasherDryerObject | undefined
+  //   // ) => {
+  //   //   const washerArray: string[] = []
+  //   //   for (
+  //   //     let washerId = 1;
+  //   //     washerId <= washersAndDryers?.washerCount!;
+  //   //     washerId++
+  //   //   ) {
+  //   //     washerArray.push(`Washer ${washerId}`)
+  //   //   }
+  //   //   return washerArray
+  //   // for (let dryerId = 1; dryerId <= machineCount?.dryerCount!; dryerId++) {
+  //   //   dryers.push(`Washer ${dryerId}`)
+  //   // }
 
-  // let washerArray = WasherAndDryerLists(MachineObjectFunction())
-  // console.log(washerArray)
+  //   // let washerArray = WasherAndDryerLists(MachineObjectFunction())
+  //   // console.log(washerArray)
 
   return (
     <View>
       <Text style={{ fontSize: 30 }}>building</Text>
       <Text style={{ fontSize: 20 }}>Washers</Text>
+      <Text>{machines.dryerCount}</Text>
+
       {/* {ListWasherLinks} */}
       <Link href="/Washer/Washer 1">Washer 1</Link>
       <Text style={{ fontSize: 20 }}>Dryers</Text>
@@ -223,4 +234,4 @@ const BuildingPage = () => {
 //   )
 // }
 
-export default BuildingPage
+export default machineCount
