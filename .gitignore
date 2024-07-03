@@ -39,3 +39,6 @@ yarn-error.*
 
 # vscode folder
 .vscode
+
+# firebase api key file
+# firebase/firestoreInitialize

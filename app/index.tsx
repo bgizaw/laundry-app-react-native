@@ -1,9 +1,12 @@
 import { Link, useLocalSearchParams } from "expo-router"
 import { Text, View, Pressable } from "react-native"
-import data from "./buildings/machineInfo.json"
-import database from "./buildings/firestoreInitialize"
-import { collection } from "firebase/firestore"
-import Building from "./buildingName"
+import database from "./firebase/firestoreInitialize"
+import {
+  CollectionReference,
+  DocumentData,
+  collection,
+} from "firebase/firestore"
+import Building from "./Classes/Building"
 
 const buildingNames = [
   "Sontag",
@@ -12,6 +15,7 @@ const buildingNames = [
   "Clark III",
   "Walton Commons",
   "Frary",
+  "Walker",
   "Smiley",
   "Harwood",
   "Lyon",
@@ -22,23 +26,18 @@ const buildingNames = [
   "Wig",
 ]
 
+const TrackBuildingName = (buildingName: string) => {
+  let collectionRef = collection(database, buildingName)
+  let buildingInstance = new Building(buildingName)
+  buildingInstance.database = collectionRef
+  return buildingInstance
+}
+
 const ListofBuildings = buildingNames.map(building => {
   return (
-    <Link
-      href={{
-        pathname: "buildings/[id]",
-        params: { id: building },
-      }}
-      key={building}
-      asChild
-    >
-      <Pressable
-        onPress={() => {
-          Building.buildingName = building
-        }}
-      >
-        <Text>{building}</Text>
-      </Pressable>
+    <Link href={`/${building}`} key={building}>
+      <Pressable onPress={() => TrackBuildingName(building)}></Pressable>
+      {building}
     </Link>
   )
 })
