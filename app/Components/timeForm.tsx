@@ -12,11 +12,13 @@ type props = {
 
 function TimeForm(props: props) {
   const [time, setTime] = useState(0)
-  const [countdownKey, setCountdownKey] = useState(0)
+  // const [countdownKey, setCountdownKey] = useState(0)
+  // i noticed that the implementation using useState allows the timer to restart when you click the same time 
+  // again, but this doesnt happen when the key is set to time since time doesn't change in this case
 
   const updateTime = (time: number) => {
     setTime(time)
-    setCountdownKey(prevKey => prevKey + 1)
+    // setCountdownKey(prevKey => prevKey + 1)
   }
 
   const timeUpdate = async (time: number) => {
@@ -60,7 +62,7 @@ function TimeForm(props: props) {
         />
         <Text>{time}</Text>
         <CountDown
-        key={countdownKey}
+        key={time}
         until={time * 60} //60 seconds in a minute
         timeToShow={['M', 'S']}></CountDown>
       </>
