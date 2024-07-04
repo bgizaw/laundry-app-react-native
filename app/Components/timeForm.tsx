@@ -1,4 +1,4 @@
-import { count, doc, updateDoc } from "firebase/firestore"
+import { doc, updateDoc } from "firebase/firestore"
 import { useState, useEffect } from "react"
 import { Button, Text } from "react-native"
 import database from "../firebase/firestoreInitialize"
