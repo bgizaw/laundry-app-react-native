@@ -1,7 +1,8 @@
-import { doc, updateDoc } from "firebase/firestore"
+import { count, doc, updateDoc } from "firebase/firestore"
 import { useState, useEffect } from "react"
 import { Button, Text } from "react-native"
 import database from "../firebase/firestoreInitialize"
+import CountDown from 'react-native-countdown-component'
 
 type props = {
   machineType: string
@@ -11,35 +12,12 @@ type props = {
 
 function TimeForm(props: props) {
   const [time, setTime] = useState(0)
+  const [countdownKey, setCountdownKey] = useState(0)
 
   const updateTime = (time: number) => {
     setTime(time)
+    setCountdownKey(prevKey => prevKey + 1)
   }
-
-//timer
-const [timer, setTimer] = useState(0)
-
-useEffect(() => {
-  const minsToMilli = 60000
-  const startTime = Date.now()
-  const endTime = startTime + (time * 1000) 
-
-  const updateElapsedTime = () => {
-    // need to figure out how to make timer not go past 0 and only run if the time is not set to 0 (the initial value)
-    if (time >= 0) {
-      setTimer(endTime - Date.now())
-    }
-  }
-
-  const interval = setInterval(updateElapsedTime, 1000)
-
-  return () => clearInterval(interval)
-}, [time])
-
-
-
-
-//
 
   const timeUpdate = async (time: number) => {
     const machineRef = doc(database, props.building, props.machine)
@@ -53,13 +31,9 @@ useEffect(() => {
   }, [time])
 
 
-
-
-  if (props.machineType === "Washer") {
+  if (props.machineType === "Washer" && time > 0) {
     return (
       <>
-      <Text>{Math.ceil(timer/1000)}</Text>
-      <Text>{time}</Text>
         <Button
           title="0"
           onPress={() => {
@@ -84,9 +58,46 @@ useEffect(() => {
             updateTime(29)
           }}
         />
+        <Text>{time}</Text>
+        <CountDown
+        key={countdownKey}
+        until={time * 60} //60 seconds in a minute
+        timeToShow={['M', 'S']}></CountDown>
       </>
     )
-  } else if (props.machineType === "Dryer") {
+  } else if (props.machineType === "Washer") {
+    return (
+      <>
+        <Button
+          title="0"
+          onPress={() => {
+            updateTime(0)
+          }}
+        />
+        <Button
+          title="23"
+          onPress={() => {
+            updateTime(23)
+          }}
+        />
+        <Button
+          title="26"
+          onPress={() => {
+            updateTime(26)
+          }}
+        />
+        <Button
+          title="29"
+          onPress={() => {
+            updateTime(29)
+          }}
+        />
+        <Text>{time}</Text>
+      </>
+    )
+  }
+  
+  else if (props.machineType === "Dryer") {
     return(
     <>
     <Text>{time}</Text>
