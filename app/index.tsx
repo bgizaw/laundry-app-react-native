@@ -1,9 +1,7 @@
-import { Link, useLocalSearchParams } from "expo-router"
+import { Link } from "expo-router"
 import { Text, View, Pressable } from "react-native"
 import database from "./firebase/firestoreInitialize"
 import {
-  CollectionReference,
-  DocumentData,
   collection,
 } from "firebase/firestore"
 import Building from "./Classes/Building"

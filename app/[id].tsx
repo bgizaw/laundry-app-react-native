@@ -1,16 +1,12 @@
 import { Link, useLocalSearchParams } from "expo-router"
 import { Alert, Text, View } from "react-native"
-import data from "./machineInfo.json"
 import {
-  CollectionReference,
-  DocumentData,
   collection,
   getDocs,
 } from "firebase/firestore"
 import database from "./firebase/firestoreInitialize"
 import Building from "./Classes/Building"
 import { useEffect, useState } from "react"
-// import Button2 from "./Components/Button2"
 
 interface WasherDryerObject {
   washerCount: number
@@ -58,7 +54,7 @@ const BuildingPage = () => {
     }
   })
   if (loading) {
-    return <Text>...Loading...</Text>
+    return <Text>Loading...</Text>
   } else {
     return (
       <View>

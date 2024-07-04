@@ -1,18 +1,17 @@
 import { Text, View } from "react-native"
 import { useGlobalSearchParams } from "expo-router"
-import data from "../../machineInfo.json"
-
-const buildingObj = data.find(i => i.building === "Clark I")
+import StateForm from "../../Components/stateForm"
 
 const DryerPage = () => {
   const linkData = useGlobalSearchParams()
-  const building = linkData.Building
-  const dryer = linkData.id
+  const building: string = linkData.Building?.toString()!
+  const dryer: string = linkData.id!.toString()
   const title = building + " " + dryer
 
   return (
     <View>
       <Text style={{ fontSize: 30 }}>{title}</Text>
+      <StateForm building={building} machine={dryer} />
     </View>
   )
 }

@@ -9,6 +9,7 @@
     "web": "expo start --web"
   },
   "dependencies": {
+    "@bladeski/countdown-timer": "^2.3.2",
     "@expo/metro-runtime": "~3.2.1",
     "expo": "~51.0.14",
     "expo-constants": "~16.0.2",
@@ -19,6 +20,7 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-native": "0.74.2",
+    "react-native-countdown-timer-hooks": "^1.0.5",
     "react-native-safe-area-context": "4.10.1",
     "react-native-screens": "3.31.1",
     "react-native-web": "~0.19.10"
