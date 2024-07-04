@@ -20,11 +20,14 @@ function TimeForm(props: props) {
 const [timer, setTimer] = useState(0)
 
 useEffect(() => {
+  const minsToMilli = 60000
   const startTime = Date.now()
+  const endTime = startTime + (time * 1000) 
 
-  const updateElapsedTime = () => { 
-    if (time > 0 && timer <= time) {
-      setTimer((startTime - Date.now()) * -1)
+  const updateElapsedTime = () => {
+    // need to figure out how to make timer not go past 0 and only run if the time is not set to 0 (the initial value)
+    if (time >= 0) {
+      setTimer(endTime - Date.now())
     }
   }
 
@@ -55,7 +58,7 @@ useEffect(() => {
   if (props.machineType === "Washer") {
     return (
       <>
-      <Text>{Math.floor(timer/1000)}</Text>
+      <Text>{Math.ceil(timer/1000)}</Text>
       <Text>{time}</Text>
         <Button
           title="0"
