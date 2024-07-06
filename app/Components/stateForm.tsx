@@ -10,6 +10,7 @@ const workOrderLink = `https://pomona.webtma.com/?tkn=zR_pJHKh9JP45Xg9RPojIH2irx
 He74IdVLeZelp9ZkWK50Q_luNhA7JFwQ6Lx2OfJd_pFK2rvhrrqeXGqLQywWvEnvUiNo4WgeJcevA2BSHiAXEKNTLwt39ZqtjT4fFs-oTtdZ1O0gv8UN-bLkhcSL7e
 qRIxeuVbG7ytk3eR5US9MexRJDmTpn6bAkOr0OvwjXtkjGGCJz3uj6jDN_6qPl4d7lOptkG5EDbRxzGXg`
 
+
 async function openInCustomTab(url: string) {
   if (Platform.OS === 'android') {
     const { preferredBrowserPackage } = await WebBrowser.getCustomTabsSupportingBrowsersAsync()
@@ -25,10 +26,11 @@ async function openInCustomTab(url: string) {
 type props = {
   building: string
   machine: string
+  // state: string
 }
 
 function StateForm(props: props) {
-  const [state, setState] = useState("Available")
+  const [state, setState] = useState("available") //change to props.state when i figure out how to set state to state in firestore database
   const updateState = (state: string) => {
     setState(state)
     // update firestore machine data
