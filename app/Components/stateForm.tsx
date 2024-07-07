@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react"
 import database from "../firebase/firestoreInitialize"
-import { doc, getDoc, updateDoc } from "firebase/firestore"
+import { doc, updateDoc, onSnapshot } from "firebase/firestore"
 import TimeForm from "./timeForm"
 import { Button, Text, Platform } from "react-native"
 import * as Linking from "expo-linking"
@@ -28,32 +28,33 @@ async function openInCustomTab(url: string) {
 type props = {
   building: string
   machine: string
-  // state: string
 }
 
 function StateForm(props: props) {
-  const machineState = async () => {
-    const machineRef = doc(database, props.building, props.machine)
-    const machineSnapshot = await getDoc(machineRef)
-    if (machineSnapshot.exists()) {
-      setState(machineSnapshot.data().status)
-    } else {
-      return "Invalid"
-    }
-  }
-
-  const [state, setState] = useState("available") //change to props.state when i figure out how to set state to state in firestore database
+  const [state, setState] = useState<string | null>(null) //change to props.state when i figure out how to set state to state in firestore database
 
   useEffect(() => {
-    machineState()
-    stateUpdate(state)
+    const fetchMachineState = async () => {
+      const machineRef = doc(database, props.building, props.machine)
+      onSnapshot(machineRef, snapshot => {
+        // listens for changes to the database and updates state if the state in firestore is changed
+        setState(snapshot.data()!.status)
+      })
+    }
+    fetchMachineState()
+  }, [])
+
+  useEffect(() => {
+    if (state) {
+      stateUpdate(state)
+    }
   }, [state])
 
   const updateState = (state: string) => {
     setState(state)
-    // update firestore machine data
   }
 
+  // update firestore machine data
   const stateUpdate = async (state: string) => {
     const machineRef = doc(database, props.building, props.machine)
     await updateDoc(machineRef, {
@@ -61,45 +62,45 @@ function StateForm(props: props) {
     })
   }
 
-  if (state != "In-Use") {
+  if (state != "in-use") {
     return (
       <>
         <Text>{state}</Text>
         <Button
           title="Available"
           onPress={() => {
-            updateState("Available")
+            updateState("available")
           }}
         />
         <Button
           title="In-Use"
           onPress={() => {
-            updateState("In-Use")
+            updateState("in-use")
           }}
         />
         <Button
           title="Out-Of-Order"
           onPress={() => {
-            updateState("Out-Of-Order")
+            updateState("out-of-order")
             openInCustomTab(workOrderLink)
           }}
         />
         <Button
           title="Pending"
           onPress={() => {
-            updateState("Pending")
+            updateState("pending")
           }}
         />
       </>
     )
-  } else if (state === "In-Use") {
+  } else if (state === "in-use") {
     return (
       <>
         <Text>This machine is in use.</Text>
         <Button
           title="Available"
           onPress={() => {
-            updateState("Available")
+            updateState("available")
           }}
         />
         <TimeForm
