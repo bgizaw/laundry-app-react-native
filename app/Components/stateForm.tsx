@@ -1,27 +1,29 @@
 import { useState, useEffect } from "react"
 import database from "../firebase/firestoreInitialize"
-import { doc, updateDoc } from "firebase/firestore"
+import { doc, getDoc, updateDoc } from "firebase/firestore"
 import TimeForm from "./timeForm"
 import { Button, Text, Platform } from "react-native"
-import * as Linking from 'expo-linking'
-import * as WebBrowser from 'expo-web-browser'
+import * as Linking from "expo-linking"
+import * as WebBrowser from "expo-web-browser"
 
 const workOrderLink = `https://pomona.webtma.com/?tkn=zR_pJHKh9JP45Xg9RPojIH2irxyiuxkXCrWY6I1oLlEMORHMSIfRo8C50hsmXjJNq3CC4sh
 He74IdVLeZelp9ZkWK50Q_luNhA7JFwQ6Lx2OfJd_pFK2rvhrrqeXGqLQywWvEnvUiNo4WgeJcevA2BSHiAXEKNTLwt39ZqtjT4fFs-oTtdZ1O0gv8UN-bLkhcSL7e
 qRIxeuVbG7ytk3eR5US9MexRJDmTpn6bAkOr0OvwjXtkjGGCJz3uj6jDN_6qPl4d7lOptkG5EDbRxzGXg`
 
-
+// open work order link
 async function openInCustomTab(url: string) {
-  if (Platform.OS === 'android') {
-    const { preferredBrowserPackage } = await WebBrowser.getCustomTabsSupportingBrowsersAsync()
-    await WebBrowser.openBrowserAsync(url, { browserPackage: preferredBrowserPackage})
-} else if (Platform.OS === 'ios') {
-  Linking.openURL(url)
-}else {
-  await WebBrowser.openBrowserAsync(url)
+  if (Platform.OS === "android") {
+    const { preferredBrowserPackage } =
+      await WebBrowser.getCustomTabsSupportingBrowsersAsync()
+    await WebBrowser.openBrowserAsync(url, {
+      browserPackage: preferredBrowserPackage,
+    })
+  } else if (Platform.OS === "ios") {
+    Linking.openURL(url)
+  } else {
+    await WebBrowser.openBrowserAsync(url)
+  }
 }
-}
-
 
 type props = {
   building: string
@@ -30,7 +32,23 @@ type props = {
 }
 
 function StateForm(props: props) {
+  const machineState = async () => {
+    const machineRef = doc(database, props.building, props.machine)
+    const machineSnapshot = await getDoc(machineRef)
+    if (machineSnapshot.exists()) {
+      setState(machineSnapshot.data().status)
+    } else {
+      return "Invalid"
+    }
+  }
+
   const [state, setState] = useState("available") //change to props.state when i figure out how to set state to state in firestore database
+
+  useEffect(() => {
+    machineState()
+    stateUpdate(state)
+  }, [state])
+
   const updateState = (state: string) => {
     setState(state)
     // update firestore machine data
@@ -43,14 +61,10 @@ function StateForm(props: props) {
     })
   }
 
-  useEffect(() => {
-    stateUpdate(state)
-  }, [state])
-
   if (state != "In-Use") {
     return (
       <>
-      <Text>{state}</Text>
+        <Text>{state}</Text>
         <Button
           title="Available"
           onPress={() => {
@@ -78,7 +92,7 @@ function StateForm(props: props) {
         />
       </>
     )
-  } else if (state === "In-Use"){
+  } else if (state === "In-Use") {
     return (
       <>
         <Text>This machine is in use.</Text>

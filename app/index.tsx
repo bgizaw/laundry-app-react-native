@@ -1,9 +1,7 @@
 import { Link } from "expo-router"
 import { Text, View, Pressable, Image, StyleSheet } from "react-native"
 import database from "./firebase/firestoreInitialize"
-import {
-  collection,
-} from "firebase/firestore"
+import { collection } from "firebase/firestore"
 import Building from "./Classes/Building"
 
 const styles = StyleSheet.create({
