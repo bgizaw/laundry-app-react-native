@@ -28,11 +28,10 @@ const WasherPage = () => {
   //   console.log(status)
   // }, [])
 
-
   return (
     <View>
       <Text style={{ fontSize: 30 }}>{title}</Text>
-      <StateForm building={building} machine={washer}/>
+      <StateForm building={building} machine={washer} />
     </View>
   )
 }

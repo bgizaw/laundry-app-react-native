@@ -1,9 +1,6 @@
 import { Link, useLocalSearchParams } from "expo-router"
 import { Alert, Text, View } from "react-native"
-import {
-  collection,
-  getDocs,
-} from "firebase/firestore"
+import { collection, getDocs } from "firebase/firestore"
 import database from "./firebase/firestoreInitialize"
 import Building from "./Classes/Building"
 import { useEffect, useState } from "react"
