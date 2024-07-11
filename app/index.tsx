@@ -3,6 +3,7 @@ import { Text, View, Image, StyleSheet, ImageBackground } from "react-native"
 import database from "./firebase/firestoreInitialize"
 import { collection } from "firebase/firestore"
 import Building from "./Classes/Building"
+import styles from "./styles"
 
 const buildingNames = [
   "Sontag",
@@ -35,14 +36,16 @@ const ListofBuildings = buildingNames.map(building => {
       href={`/${building}`}
       key={building}
       onPress={() => TrackBuildingName(building)}
+      style={styles.buildingLink}
     >
-      <View>
+      <View style={styles.imageContainer}>
         <ImageBackground
           source={require("../assets/dormButton.png")}
           resizeMode="cover"
+          style={styles.buildingLogo}
         >
           {/* // <Image source={require("../assets/dormButton.png")}></Image> */}
-          <Text>{building}</Text>
+          <Text style={styles.buildingText}>{building}</Text>
         </ImageBackground>
       </View>
     </Link>
@@ -53,7 +56,7 @@ const Homepage = () => {
   return (
     <>
       <Text>Buildings</Text>
-      <View className="bg-black justify-start">{ListofBuildings}</View>
+      <View style={styles.container}>{ListofBuildings}</View>
     </>
   )
 }
