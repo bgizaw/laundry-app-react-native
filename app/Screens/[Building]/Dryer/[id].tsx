@@ -1,6 +1,6 @@
 import { Text, View } from "react-native"
 import { useGlobalSearchParams } from "expo-router"
-import StateForm from "../../Components/stateForm"
+import StateForm from "../../../Components/stateForm"
 
 const DryerPage = () => {
   const linkData = useGlobalSearchParams()

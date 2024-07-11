@@ -1,33 +1,9 @@
 import { Link } from "expo-router"
-import { Text, View, Pressable, Image, StyleSheet, Linking } from "react-native"
+import { Text, View, Image, StyleSheet, ImageBackground } from "react-native"
 import database from "./firebase/firestoreInitialize"
 import { collection } from "firebase/firestore"
 import Building from "./Classes/Building"
-import Sandbox from "./cssSandbox"
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "yellow",
-    flexDirection: "row",
-    flexWrap: "wrap",
-    justifyContent: "space-evenly",
-  },
-  buildingLink: {
-    backgroundColor: "pink",
-    flexDirection: "row",
-    padding: 10,
-    flex: 1,
-  },
-  buildingText: {
-    flex: 1,
-    alignItems: "center",
-    backgroundColor: "lightgray",
-    justifyContent: "center",
-    width: "auto",
-    display: "flex",
-  },
-})
+import styles from "./styles"
 
 const buildingNames = [
   "Sontag",
@@ -62,13 +38,15 @@ const ListofBuildings = buildingNames.map(building => {
       onPress={() => TrackBuildingName(building)}
       style={styles.buildingLink}
     >
-      <View>
-        <View>
-          <Image source={require("../assets/dormButton.png")}></Image>
-          <View style={styles.buildingText}>
-            <Text>{building}</Text>
-          </View>
-        </View>
+      <View style={styles.image}>
+        <ImageBackground
+          source={require("../assets/dormButton.png")}
+          resizeMode="cover"
+          style={styles.image}
+        >
+          {/* // <Image source={require("../assets/dormButton.png")}></Image> */}
+          <Text>{building}</Text>
+        </ImageBackground>
       </View>
     </Link>
   )
@@ -77,15 +55,7 @@ const ListofBuildings = buildingNames.map(building => {
 const Homepage = () => {
   return (
     <>
-      <Text
-        style={{
-          fontSize: 30,
-          backgroundColor: "gray",
-          padding: 10,
-        }}
-      >
-        Buildings
-      </Text>
+      <Text>Buildings</Text>
       <View style={styles.container}>{ListofBuildings}</View>
     </>
   )
