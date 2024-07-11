@@ -1,7 +1,7 @@
 import { Text, View } from "react-native"
 import { useGlobalSearchParams } from "expo-router"
-import StateForm from "../../Components/stateForm"
-import database from "../../firebase/firestoreInitialize"
+import StateForm from "../../../Components/stateForm"
+import database from "../../../firebase/firestoreInitialize"
 import { doc, getDoc } from "firebase/firestore"
 import { useEffect, useState } from "react"
 
