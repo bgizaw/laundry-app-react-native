@@ -14,52 +14,48 @@ type props = {
 function TimeForm(props: props) {
   const [time, setTime] = useState(0)
   const [timerState, changeTimerState] = useState<boolean | null>(null)
-
   const [endTime, setEndTime] = useState(0) 
+  const [state, setState] = useState("default")
 
   
   // called within updateTime, uses useState hook to change end time
   const startTimer = (time: number) => {
-    console.log("in start timer")
     setEndTime(new Date().getTime()/ 1000 + (time * 60))
-      // setEndTime(endTimer)
-      // console.log("Now: " + new Date().getTime()/ 1000)
-      // console.log("calc" + (new Date().getTime()/ 1000 + (time * 60)))
-      // console.log("end time: " + endTime)
   } 
 
-  // goes to this after click time amount
+  // goes to this after they click time amount
   const updateTime = (time: number) => { 
     setTime(time) // uses useState hook to change time
-    console.log("in update time with time: " + time)
     startTimer(time) // calls function to calculate the end time needed
-    console.log("called start timer")
-    
-    
   }
   
   useEffect(() => {
     const fetchMachineDetails = async () => {
       const machineRef = doc(database, props.building, props.machine)
       onSnapshot(machineRef, snapshot => {
-        // listens for changes to the database and updates state if the stimerStarted in firestore is changed
+        // listens for changes to the database and updates state if the timerStarted in firestore is changed
         if (snapshot.data()!.status === "available"){
-          changeTimerState(false)
+          // changeTimerState(false)
           
-        } else{
+        } else {
           changeTimerState(snapshot.data()!.timerStarted)
           setEndTime(snapshot.data()!.endTime)
           setTime(snapshot.data()!.cycleLength)
+        
         }
       })
     }
     fetchMachineDetails()
-  }, [props.machine])
+  }, [])
+
 
  useEffect(() => {
-        timeUpdate(time)
-    
-      }, [time])
+  if(timerState != null){
+    timeUpdate(time)
+  }   
+    }, [timerState])
+  
+  
   
   const timeUpdate = async (time: number) => {
     const machineRef = doc(database, props.building, props.machine)
@@ -70,12 +66,10 @@ function TimeForm(props: props) {
     })
   }
 
-  
   const timerStateUpdate = (state: boolean) => {
     changeTimerState(state)
+    console.log(state)
   }
-
-  
 
   const washerTimeButtons = (
     <>
@@ -119,7 +113,7 @@ function TimeForm(props: props) {
     return (
       <>
         <Text>{((endTime - new Date().getTime() / 1000)) / 60 }</Text>
-        <Text>{time}</Text>
+        <Text>{}</Text>
         <CountDown
           key={time} //makes countdown display current value of time instead of previous
           until={((endTime - new Date().getTime() / 1000))} //60 seconds in a minute

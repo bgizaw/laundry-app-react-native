@@ -32,6 +32,8 @@ type props = {
 
 function StateForm(props: props) {
   const [state, setState] = useState<string | null>(null) //change to props.state when i figure out how to set state to state in firestore database
+  const [timerState, changeTimerState] = useState<boolean | null>(null)
+  const [endTime, setEndTime] = useState(0) 
 
   useEffect(() => {
     const fetchMachineState = async () => {
@@ -61,6 +63,13 @@ function StateForm(props: props) {
       status: state,
     })
   }
+
+  const setStateAvailable = async () => {
+    const machineRef = doc(database, props.building, props.machine)
+    await updateDoc(machineRef, {
+      timerStarted: false
+  })
+}
 
   if (state != "in-use") {
     return (
@@ -101,6 +110,7 @@ function StateForm(props: props) {
           title="Available"
           onPress={() => {
             updateState("available")
+            setStateAvailable()
           }}
         />
         <TimeForm

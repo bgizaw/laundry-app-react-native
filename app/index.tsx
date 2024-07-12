@@ -38,14 +38,14 @@ const ListofBuildings = buildingNames.map(building => {
       onPress={() => TrackBuildingName(building)}
       style={styles.buildingLink}
     >
-      <View style={styles.image}>
+      <View style={styles.imageContainer}>
         <ImageBackground
           source={require("../assets/dormButton.png")}
           resizeMode="cover"
-          style={styles.image}
+          style={styles.buildingLogo}
         >
           {/* // <Image source={require("../assets/dormButton.png")}></Image> */}
-          <Text>{building}</Text>
+          <Text style={styles.buildingText}>{building}</Text>
         </ImageBackground>
       </View>
     </Link>
