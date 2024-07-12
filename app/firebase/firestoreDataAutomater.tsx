@@ -5,16 +5,19 @@
 // // structure for each washer document
 // const washerData = {
 //   status: "available",
-//   timeRemaining: 0,
+//   endTime: 0,
 //   machineType: "washer",
+//   timerStarted: false,
+//   cycleLength: 0,
 //   userIP: "0.0.0.0", //IPv4 address of user that started the machine
 // }
 
 // // structure for each dryer document
 // const dryerData = {
 //   status: "available",
-//   timeRemaining: 0,
+//   endTime: 0,
 //   machineType: "dryer",
+//   timerStarted: false,
 //   userIP: "0.0.0.0",
 // }
 
