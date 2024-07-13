@@ -33,7 +33,7 @@ type props = {
 function StateForm(props: props) {
   const [state, setState] = useState<string | null>(null) //change to props.state when i figure out how to set state to state in firestore database
   const [timerState, changeTimerState] = useState<boolean | null>(null)
-  const [endTime, setEndTime] = useState(0) 
+  const [endTime, setEndTime] = useState(0)
 
   useEffect(() => {
     const fetchMachineState = async () => {
@@ -67,20 +67,13 @@ function StateForm(props: props) {
   const setStateAvailable = async () => {
     const machineRef = doc(database, props.building, props.machine)
     await updateDoc(machineRef, {
-      timerStarted: false
-  })
-}
+      timerStarted: false,
+    })
+  }
 
-  if (state != "in-use") {
+  if (state === "available") {
     return (
       <>
-        <Text>{state}</Text>
-        <Button
-          title="Available"
-          onPress={() => {
-            updateState("available")
-          }}
-        />
         <Button
           title="In-Use"
           onPress={() => {
@@ -92,12 +85,6 @@ function StateForm(props: props) {
           onPress={() => {
             updateState("out-of-order")
             openInCustomTab(workOrderLink)
-          }}
-        />
-        <Button
-          title="Pending"
-          onPress={() => {
-            updateState("pending")
           }}
         />
       </>
@@ -120,7 +107,32 @@ function StateForm(props: props) {
         />
       </>
     )
-  }
+  } else if (state === "pending") {
+    return (
+    <>
+      <Text>{state}</Text>
+      <Button
+        title="Available"
+        onPress={() => {
+          updateState("available")
+        }}
+      />
+      <Button
+        title="In-Use"
+        onPress={() => {
+          updateState("in-use")
+        }}
+      />
+      <Button
+        title="Out-Of-Order"
+        onPress={() => {
+          updateState("out-of-order")
+          openInCustomTab(workOrderLink)
+        }}
+      />
+    </>
+  )
+}
 }
 
 export default StateForm

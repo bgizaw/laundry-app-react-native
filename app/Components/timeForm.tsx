@@ -14,7 +14,6 @@ function TimeForm(props: props) {
   const [time, setTime] = useState(0)
   const [timerState, changeTimerState] = useState<boolean | null>(null)
   const [endTime, setEndTime] = useState(0)
-  const [state, setState] = useState("default")
 
   // called within updateTime, uses useState hook to change end time
   const startTimer = (time: number) => {
@@ -34,14 +33,14 @@ function TimeForm(props: props) {
         // listens for changes to the database and updates state if the timerStarted in firestore is changed
         if (snapshot.data()!.status === "available") {
           // figure out how to get machine to reset when it is set to available
-          // const machineReset = async () => {
-          //   await updateDoc(machineRef, {
-          //     endTime: 0,
-          //     timerStarted: false,
-          //     cycleLength: 0,
-          //   })
-          // }
-          // machineReset()
+          const machineReset = async () => {
+            await updateDoc(machineRef, {
+              endTime: 0,
+              timerStarted: false,
+              cycleLength: 0,
+            })
+          }
+          machineReset()
         } else {
           //change this else to an else if at some point
           changeTimerState(snapshot.data()!.timerStarted)
@@ -118,8 +117,7 @@ function TimeForm(props: props) {
     //if washer timer button has been clicked
     return (
       <>
-        <Text>{(endTime - new Date().getTime() / 1000) / 60}</Text>
-        <Text>{}</Text>
+        <Text>Countdown</Text>
         <CountDown
           key={time} //makes countdown display current value of time instead of previous
           until={endTime - new Date().getTime() / 1000} //60 seconds in a minute

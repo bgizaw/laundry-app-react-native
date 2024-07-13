@@ -1,5 +1,5 @@
 import { Link } from "expo-router"
-import { Text, View, Image, StyleSheet, ImageBackground } from "react-native"
+import { Text, View, Image, ImageBackground } from "react-native"
 import database from "./firebase/firestoreInitialize"
 import { collection } from "firebase/firestore"
 import Building from "./Classes/Building"
@@ -23,13 +23,20 @@ const buildingNames = [
   "Wig",
 ]
 
+// create class instance with database building collection reference within it
 const TrackBuildingName = (buildingName: string) => {
-  let collectionRef = collection(database, buildingName)
   let buildingInstance = new Building(buildingName)
-  buildingInstance.database = collectionRef
-  return buildingInstance
+  try {
+    let collectionRef = collection(database, buildingName)
+    buildingInstance.database = collectionRef
+  } catch (err: any) {
+    console.log("Error has occured:" + err.message)
+  } finally {
+    return buildingInstance
+  }
 }
 
+// list of linked images, all leading to their respective building page
 const ListofBuildings = buildingNames.map(building => {
   return (
     <Link
