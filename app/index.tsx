@@ -1,33 +1,9 @@
 import { Link } from "expo-router"
-import { Text, View, Pressable, Image, StyleSheet, Linking } from "react-native"
+import { Text, View, Image, ImageBackground, Dimensions, ScrollView } from "react-native"
 import database from "./firebase/firestoreInitialize"
 import { collection } from "firebase/firestore"
 import Building from "./Classes/Building"
-import Sandbox from "./cssSandbox"
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "yellow",
-    flexDirection: "row",
-    flexWrap: "wrap",
-    justifyContent: "space-evenly",
-  },
-  buildingLink: {
-    backgroundColor: "pink",
-    flexDirection: "row",
-    padding: 10,
-    flex: 1,
-  },
-  buildingText: {
-    flex: 1,
-    alignItems: "center",
-    backgroundColor: "lightgray",
-    justifyContent: "center",
-    width: "auto",
-    display: "flex",
-  },
-})
+import styles from "./styles"
 
 const buildingNames = [
   "Sontag",
@@ -47,30 +23,40 @@ const buildingNames = [
   "Wig",
 ]
 
+// create class instance with database building collection reference within it
 const TrackBuildingName = (buildingName: string) => {
-  let collectionRef = collection(database, buildingName)
   let buildingInstance = new Building(buildingName)
-  buildingInstance.database = collectionRef
-  return buildingInstance
+  try {
+    let collectionRef = collection(database, buildingName)
+    buildingInstance.database = collectionRef
+  } catch (err: any) {
+    console.log("Error has occured:" + err.message)
+  } finally {
+    return buildingInstance
+  }
 }
 
+// list of linked images, all leading to their respective building page
 const ListofBuildings = buildingNames.map(building => {
   return (
     <Link
       href={`/${building}`}
       key={building}
       onPress={() => TrackBuildingName(building)}
-      style={styles.buildingLink}
+      style={[styles.buildingLink, {width: Dimensions.get('window').width/2.5, height: Dimensions.get('window').width/2.5 }]}
     >
-      <View>
-        <View>
-          <Image source={require("../assets/dormButton.png")}></Image>
-          <View style={styles.buildingText}>
-            <Text>{building}</Text>
-          </View>
-        </View>
+      <View style={styles.imageContainer}>
+        <ImageBackground
+          source={require("../assets/dormButton.png")}
+          resizeMode="cover"
+          style={[styles.buildingLogo, {width: Dimensions.get('window').width/2.5, height: Dimensions.get('window').width/2.5 }]}
+        >
+          {/* // <Image source={require("../assets/dormButton.png")}></Image> */}
+          <Text style={styles.buildingText}>{building}</Text>
+        </ImageBackground>
       </View>
     </Link>
+    
   )
 })
 
@@ -78,16 +64,9 @@ const ListofBuildings = buildingNames.map(building => {
 const Homepage = () => {
   return (
     <>
-      <Text
-        style={{
-          fontSize: 30,
-          backgroundColor: "gray",
-          padding: 10,
-        }}
-      >
-        Buildings
-      </Text>
+    <ScrollView>
       <View style={styles.container}>{ListofBuildings}</View>
+      </ScrollView>
     </>
   )
 }

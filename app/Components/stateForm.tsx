@@ -32,6 +32,8 @@ type props = {
 
 function StateForm(props: props) {
   const [state, setState] = useState<string | null>(null) //change to props.state when i figure out how to set state to state in firestore database
+  const [timerState, changeTimerState] = useState<boolean | null>(null)
+  const [endTime, setEndTime] = useState(0)
 
   useEffect(() => {
     const fetchMachineState = async () => {
@@ -62,16 +64,16 @@ function StateForm(props: props) {
     })
   }
 
-  if (state != "in-use") {
+  const setStateAvailable = async () => {
+    const machineRef = doc(database, props.building, props.machine)
+    await updateDoc(machineRef, {
+      timerStarted: false,
+    })
+  }
+
+  if (state === "available") {
     return (
       <>
-        <Text>{state}</Text>
-        <Button
-          title="Available"
-          onPress={() => {
-            updateState("available")
-          }}
-        />
         <Button
           title="In-Use"
           onPress={() => {
@@ -85,12 +87,6 @@ function StateForm(props: props) {
             openInCustomTab(workOrderLink)
           }}
         />
-        <Button
-          title="Pending"
-          onPress={() => {
-            updateState("pending")
-          }}
-        />
       </>
     )
   } else if (state === "in-use") {
@@ -101,6 +97,7 @@ function StateForm(props: props) {
           title="Available"
           onPress={() => {
             updateState("available")
+            setStateAvailable()
           }}
         />
         <TimeForm
@@ -110,7 +107,31 @@ function StateForm(props: props) {
         />
       </>
     )
-  }
+  } else if (state === "pending") {
+    return (
+    <>
+      <Text>{state}</Text>
+      <Button
+        title="Available"
+        onPress={() => {
+          updateState("available")
+        }}
+      />
+      <Button
+        title="In-Use"
+        onPress={() => {
+          updateState("in-use")
+        }}
+      />
+      <Button
+        title="Out-Of-Order"
+        onPress={() => {
+          openInCustomTab(workOrderLink)
+        }}
+      />
+    </>
+  )
+}
 }
 
 export default StateForm

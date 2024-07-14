@@ -1,5 +1,5 @@
 import { Link, useLocalSearchParams } from "expo-router"
-import { Alert, Text, View } from "react-native"
+import { Text, View } from "react-native"
 import { collection, getDocs } from "firebase/firestore"
 import database from "./firebase/firestoreInitialize"
 import Building from "./Classes/Building"
@@ -10,18 +10,18 @@ interface WasherDryerObject {
   dryerCount: number
 }
 
+const TrackBuildingName = (buildingName: string) => {
+  let collectionRef = collection(database, buildingName)
+  let buildingInstance = new Building(buildingName)
+  buildingInstance.database = collectionRef
+  return buildingInstance
+}
+
 const BuildingPage = () => {
   const [loading, setLoading] = useState(true)
   const [machines, setMachines] = useState<{ id: string }[]>([])
   let buildingNameObject = useLocalSearchParams()
   let nameOfBuilding = buildingNameObject.id as string
-
-  const TrackBuildingName = (buildingName: string) => {
-    let collectionRef = collection(database, buildingName)
-    let buildingInstance = new Building(buildingName)
-    buildingInstance.database = collectionRef
-    return buildingInstance
-  }
 
   useEffect(() => {
     const db = TrackBuildingName(nameOfBuilding).database!
@@ -40,9 +40,9 @@ const BuildingPage = () => {
       })
   }, [])
 
+  // create and populate lists for washers and dryers with respective machine names
   let washers: string[] = []
   let dryers: string[] = []
-
   machines.forEach(machine => {
     if (machine.id.includes("Washer")) {
       washers.push(machine.id)
@@ -50,6 +50,7 @@ const BuildingPage = () => {
       dryers.push(machine.id)
     }
   })
+
   if (loading) {
     return <Text>Loading...</Text>
   } else {
