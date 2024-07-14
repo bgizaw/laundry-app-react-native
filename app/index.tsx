@@ -1,5 +1,5 @@
 import { Link } from "expo-router"
-import { Text, View, Image, ImageBackground } from "react-native"
+import { Text, View, Image, ImageBackground, Dimensions, ScrollView } from "react-native"
 import database from "./firebase/firestoreInitialize"
 import { collection } from "firebase/firestore"
 import Building from "./Classes/Building"
@@ -43,27 +43,29 @@ const ListofBuildings = buildingNames.map(building => {
       href={`/${building}`}
       key={building}
       onPress={() => TrackBuildingName(building)}
-      style={styles.buildingLink}
+      style={[styles.buildingLink, {width: Dimensions.get('window').width/2.5, height: Dimensions.get('window').width/2.5 }]}
     >
       <View style={styles.imageContainer}>
         <ImageBackground
           source={require("../assets/dormButton.png")}
           resizeMode="cover"
-          style={styles.buildingLogo}
+          style={[styles.buildingLogo, {width: Dimensions.get('window').width/2.5, height: Dimensions.get('window').width/2.5 }]}
         >
           {/* // <Image source={require("../assets/dormButton.png")}></Image> */}
           <Text style={styles.buildingText}>{building}</Text>
         </ImageBackground>
       </View>
     </Link>
+    
   )
 })
 
 const Homepage = () => {
   return (
     <>
-      <Text>Buildings</Text>
+    <ScrollView>
       <View style={styles.container}>{ListofBuildings}</View>
+      </ScrollView>
     </>
   )
 }

@@ -126,7 +126,6 @@ function StateForm(props: props) {
       <Button
         title="Out-Of-Order"
         onPress={() => {
-          updateState("out-of-order")
           openInCustomTab(workOrderLink)
         }}
       />
