@@ -49,7 +49,7 @@ const ListofBuildings = buildingNames.map(building => {
         <ImageBackground
           source={require("../assets/dormButton.png")}
           resizeMode="cover"
-          style={[styles.buildingLogo, {width: Dimensions.get('window').width/2.5, height: Dimensions.get('window').width/2.5 }]}
+          style={styles.buildingLogo}
         >
           {/* // <Image source={require("../assets/dormButton.png")}></Image> */}
           <Text style={styles.buildingText}>{building}</Text>
@@ -61,6 +61,7 @@ const ListofBuildings = buildingNames.map(building => {
 })
 
 const Homepage = () => {
+  console.log(Dimensions.get('window').width)
   return (
     <>
     <ScrollView>
