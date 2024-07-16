@@ -4,6 +4,7 @@ import database from "./firebase/firestoreInitialize"
 import { collection } from "firebase/firestore"
 import Building from "./Classes/Building"
 import styles from "./styles"
+import { useFonts } from "expo-font"
 
 const buildingNames = [
   "Sontag",
@@ -45,23 +46,28 @@ const ListofBuildings = buildingNames.map(building => {
       onPress={() => TrackBuildingName(building)}
       style={[styles.buildingLink, {width: Dimensions.get('window').width/2.5, height: Dimensions.get('window').width/2.5 }]}
     >
-      <View style={styles.imageContainer}>
         <ImageBackground
-          source={require("../assets/dormButton.png")}
+          source={require("../assets/images/dormButton.png")}
           resizeMode="cover"
           style={styles.buildingLogo}
         >
-          {/* // <Image source={require("../assets/dormButton.png")}></Image> */}
-          <Text style={styles.buildingText}>{building}</Text>
+          <View style={styles.buildingTextContainer}>
+            <View style={styles.buildingTextFrame}>
+          <Text style={[styles.buildingText, {fontFamily: 'jaldi-bold'}]}>{building}</Text>
+          </View>
+          </View>
         </ImageBackground>
-      </View>
     </Link>
     
   )
 })
 
 const Homepage = () => {
-  console.log(Dimensions.get('window').width)
+  const [isLoaded] = useFonts({
+    'jaldi-bold': require('../assets/fonts/Jaldi-Bold.ttf'),
+    'jaldi-regular': require('../assets/fonts/Jaldi-Regular.ttf')
+
+  })
   return (
     <>
     <ScrollView>

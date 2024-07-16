@@ -10,31 +10,46 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     backgroundColor: '#FFFFFF',
-    paddingBottom: 35
+    paddingBottom: 35,
+    paddingTop: 35
   },
-  imageContainer: {
-    // backgroundColor: "green",
-  },
+
   buildingLink: {
     backgroundColor: "pink",
-    // width: 160,
-    // height: 160,
     margin: 10,
-    justifyContent: 'center',
-    alignItems: 'center',
   
   },
   buildingLogo: {
-    padding: 10,
+    // padding: 10,
     width: 160,
     height: 160,
-    marginTop: 20,
 
   },
   buildingText: {
-    fontFamily: 'Jaldi',
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    fontSize: 19,
+    color: '#000000',
+    textAlign: 'center'
+    // backgroundColor: 'red'
   },
+  buildingTextContainer: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    justifyContent: 'center',
+    alignItems: 'center',
+    flex: 1,
+    // backgroundColor: 'blue',
+  },
+  buildingTextFrame: {
+    // backgroundColor: 'yellow',
+    width: 110,
+    height: 100,
+    justifyContent: 'center',
+    alignItems: 'center'
+  }
 
   
 })
