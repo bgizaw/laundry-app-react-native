@@ -1,10 +1,19 @@
 import { Link } from "expo-router"
-import { Text, View, Image, ImageBackground, Dimensions, ScrollView } from "react-native"
+import {
+  Text,
+  View,
+  Image,
+  ImageBackground,
+  Dimensions,
+  ScrollView,
+  Platform,
+} from "react-native"
 import database from "./firebase/firestoreInitialize"
 import { collection } from "firebase/firestore"
 import Building from "./Classes/Building"
-import styles from "./styles"
+import styles from "./homePageStyles"
 import { useFonts } from "expo-font"
+import { useEffect } from "react"
 
 const buildingNames = [
   "Sontag",
@@ -24,6 +33,11 @@ const buildingNames = [
   "Wig",
 ]
 
+//create list of building names based on database
+// useEffect(() => {
+
+// }, [])
+
 // create class instance with database building collection reference within it
 const TrackBuildingName = (buildingName: string) => {
   let buildingInstance = new Building(buildingName)
@@ -39,39 +53,64 @@ const TrackBuildingName = (buildingName: string) => {
 
 // list of linked images, all leading to their respective building page
 const ListofBuildings = buildingNames.map(building => {
+  // format icon size based on platform
+  let width: number
+  if (
+    Platform.OS === "web" ||
+    Platform.OS === "macos" ||
+    Platform.OS === "windows"
+  ) {
+    width = Dimensions.get("window").width * 0.1
+  } else {
+    width = Dimensions.get("window").width * 0.4
+  }
+
   return (
     <Link
-      href={`/${building}`}
+      href={`./screens/${building}`}
       key={building}
       onPress={() => TrackBuildingName(building)}
-      style={[styles.buildingLink, {width: Dimensions.get('window').width/2.5, height: Dimensions.get('window').width/2.5 }]}
+      style={[styles.buildingLink, { width: width, height: width }]}
     >
-        <ImageBackground
-          source={require("../assets/images/dormButton.png")}
-          resizeMode="cover"
-          style={styles.buildingLogo}
-        >
-          <View style={styles.buildingTextContainer}>
-            <View style={styles.buildingTextFrame}>
-          <Text style={[styles.buildingText, {fontFamily: 'jaldi-bold'}]}>{building}</Text>
+      <ImageBackground
+        source={require("../assets/images/dormButton.png")}
+        resizeMode="cover"
+        style={[styles.buildingLogo, { width: width, height: width }]}
+      >
+        <View style={styles.buildingTextContainer}>
+          <View style={styles.buildingTextFrame}>
+            <Text style={[styles.buildingText, { fontFamily: "jaldi-bold" }]}>
+              {building}
+            </Text>
           </View>
-          </View>
-        </ImageBackground>
+        </View>
+      </ImageBackground>
     </Link>
-    
   )
 })
 
+// load third party fonts
 const Homepage = () => {
   const [isLoaded] = useFonts({
-    'jaldi-bold': require('../assets/fonts/Jaldi-Bold.ttf'),
-    'jaldi-regular': require('../assets/fonts/Jaldi-Regular.ttf')
-
+    "jaldi-bold": require("../assets/fonts/Jaldi-Bold.ttf"),
+    "jaldi-regular": require("../assets/fonts/Jaldi-Regular.ttf"),
   })
   return (
     <>
-    <ScrollView>
-      <View style={styles.container}>{ListofBuildings}</View>
+      <ScrollView>
+        <Text
+          style={{
+            backgroundColor: "#FFFFFF",
+            textAlign: "center",
+            padding: 20,
+            fontFamily: "jaldi-regular",
+            fontSize: 15,
+          }}
+        >
+          Select a dorm to see laundry machine availability or to reserve a
+          machine.
+        </Text>
+        <View style={styles.container}>{ListofBuildings}</View>
       </ScrollView>
     </>
   )

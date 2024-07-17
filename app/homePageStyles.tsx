@@ -11,18 +11,18 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: '#FFFFFF',
     paddingBottom: 35,
-    paddingTop: 35
+    paddingTop: 15
   },
 
   buildingLink: {
-    backgroundColor: "pink",
+    // backgroundColor: "pink",
     margin: 10,
   
   },
   buildingLogo: {
     // padding: 10,
-    width: 160,
-    height: 160,
+    // width: 160,
+    // height: 160,
 
   },
   buildingText: {
