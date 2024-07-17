@@ -1,5 +1,5 @@
 import React from "react"
-import { Stack } from "expo-router"
+import { Link, Stack } from "expo-router"
 import { Image } from "react-native"
 
 const _layout = () => {
@@ -12,10 +12,12 @@ const _layout = () => {
           headerTitleStyle: { fontFamily: "jaldi-bold", fontSize: 27 },
           headerTitleAlign: "center",
           headerRight: () => (
-            <Image
-              source={require("../assets/images/pomonaLogo.png")}
-              style={{ marginRight: 10 }}
-            ></Image>
+            <Link href={"/"}>
+              <Image
+                source={require("../assets/images/pomonaLogo.png")}
+                style={{ marginRight: 10 }}
+              ></Image>
+            </Link>
           ),
         }}
       ></Stack.Screen>
@@ -26,10 +28,12 @@ const _layout = () => {
           headerTitleStyle: { fontFamily: "jaldi-bold", fontSize: 27 },
           headerTitleAlign: "center",
           headerRight: () => (
-            <Image
-              source={require("../assets/images/pomonaLogo.png")}
-              style={{ marginRight: 10 }}
-            ></Image>
+            <Link href={"/"}>
+              <Image
+                source={require("../assets/images/pomonaLogo.png")}
+                style={{ marginRight: 10 }}
+              ></Image>
+            </Link>
           ),
         }}
       ></Stack.Screen>
@@ -39,6 +43,14 @@ const _layout = () => {
           headerTitle: "Washer",
           headerTitleStyle: { fontFamily: "jaldi-bold", fontSize: 27 },
           headerTitleAlign: "center",
+          headerRight: () => (
+            <Link href={"/"}>
+              <Image
+                source={require("../assets/images/pomonaLogo.png")}
+                style={{ marginRight: 10 }}
+              ></Image>
+            </Link>
+          ),
         }}
       ></Stack.Screen>
       <Stack.Screen
@@ -47,6 +59,14 @@ const _layout = () => {
           headerTitle: "Dryer",
           headerTitleStyle: { fontFamily: "jaldi-bold", fontSize: 27 },
           headerTitleAlign: "center",
+          headerRight: () => (
+            <Link href={"/"}>
+              <Image
+                source={require("../assets/images/pomonaLogo.png")}
+                style={{ marginRight: 10 }}
+              ></Image>
+            </Link>
+          ),
         }}
       ></Stack.Screen>
     </Stack>

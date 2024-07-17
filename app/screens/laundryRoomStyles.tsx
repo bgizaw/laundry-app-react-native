@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
   laundryRoomTitle: {
     fontSize: 30,
     backgroundColor: "#FFFFFF",
-    // textAlign: "center",
+    textAlign: "center",
     fontFamily: "jaldi-bold",
   },
 })

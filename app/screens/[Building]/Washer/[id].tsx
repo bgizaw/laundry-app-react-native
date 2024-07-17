@@ -4,12 +4,19 @@ import StateForm from "../../../Components/stateForm"
 import database from "../../../firebase/firestoreInitialize"
 import { doc, getDoc } from "firebase/firestore"
 import { useEffect, useState } from "react"
+import { useFonts } from "expo-font"
 
 const WasherPage = () => {
   const linkData = useGlobalSearchParams()
   const building: string = linkData.Building?.toString()!
   const washer: string = linkData.id!.toString()
   const title = building + " " + washer
+
+  // load fonts
+  const [isLoaded] = useFonts({
+    "jaldi-bold": require("../../../../assets/fonts/Jaldi-Bold.ttf"),
+    "jaldi-regular": require("../../../../assets/fonts/Jaldi-Regular.ttf"),
+  })
 
   return (
     <View>

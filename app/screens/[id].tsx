@@ -14,6 +14,7 @@ import Building from "../Classes/Building"
 import { useEffect, useState } from "react"
 import styles from "./laundryRoomStyles"
 import { useFonts } from "expo-font"
+import { useRoute } from "@react-navigation/native"
 
 interface WasherDryerObject {
   washerCount: number
@@ -33,6 +34,7 @@ const BuildingPage = () => {
   let buildingNameObject = useLocalSearchParams()
   let nameOfBuilding = buildingNameObject.id as string
 
+  // load fonts
   const [isLoaded] = useFonts({
     "jaldi-bold": require("../../assets/fonts/Jaldi-Bold.ttf"),
     "jaldi-regular": require("../../assets/fonts/Jaldi-Regular.ttf"),
@@ -89,6 +91,7 @@ const BuildingPage = () => {
       </>
     )
   } else {
+    // washer and dryer logos that link to each individual washer and dryer page
     return (
       <ScrollView>
         <Text style={styles.laundryRoomTitle}>{nameOfBuilding}</Text>
@@ -119,18 +122,33 @@ const BuildingPage = () => {
               </ImageBackground>
             </Link>
           ))}
-          {/* <Text style={{ fontSize: 20 }}>Dryers</Text>
-        {dryers.map(dryer => (
-          <Link
-            key={dryer}
-            href={{
-              pathname: `./[Building]/Dryer/${dryer}`,
-              params: { Building: nameOfBuilding },
-            }}
-          >
-            {dryer}
-          </Link>
-        ))} */}
+
+          {dryers.map(dryer => (
+            <Link
+              key={dryer}
+              href={{
+                pathname: `./[Building]/Dryer/${dryer}`,
+                params: { Building: nameOfBuilding },
+              }}
+              style={styles.machineLink}
+            >
+              <ImageBackground
+                source={require("../../assets/images/dormButton.png")}
+                resizeMode="cover"
+                style={[styles.machineLogo, { width: width, height: width }]}
+              >
+                <View style={styles.machineTextContainer}>
+                  <View style={styles.machineTextFrame}>
+                    <Text
+                      style={[styles.machineText, { fontFamily: "jaldi-bold" }]}
+                    >
+                      {dryer}
+                    </Text>
+                  </View>
+                </View>
+              </ImageBackground>
+            </Link>
+          ))}
         </View>
       </ScrollView>
     )
