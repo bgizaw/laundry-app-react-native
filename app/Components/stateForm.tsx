@@ -38,11 +38,13 @@ function StateForm(props: props) {
   useEffect(() => {
     const fetchMachineState = async () => {
       const machineRef = doc(database, props.building, props.machine)
+
       onSnapshot(machineRef, snapshot => {
         // listens for changes to the database and updates state if the state in firestore is changed
         setState(snapshot.data()!.status)
       })
     }
+
     fetchMachineState()
   }, [])
 
@@ -109,29 +111,29 @@ function StateForm(props: props) {
     )
   } else if (state === "pending") {
     return (
-    <>
-      <Text>{state}</Text>
-      <Button
-        title="Available"
-        onPress={() => {
-          updateState("available")
-        }}
-      />
-      <Button
-        title="In-Use"
-        onPress={() => {
-          updateState("in-use")
-        }}
-      />
-      <Button
-        title="Out-Of-Order"
-        onPress={() => {
-          openInCustomTab(workOrderLink)
-        }}
-      />
-    </>
-  )
-}
+      <>
+        <Text>{state}</Text>
+        <Button
+          title="Available"
+          onPress={() => {
+            updateState("available")
+          }}
+        />
+        <Button
+          title="In-Use"
+          onPress={() => {
+            updateState("in-use")
+          }}
+        />
+        <Button
+          title="Out-Of-Order"
+          onPress={() => {
+            openInCustomTab(workOrderLink)
+          }}
+        />
+      </>
+    )
+  }
 }
 
 export default StateForm
