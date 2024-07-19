@@ -56,6 +56,7 @@ function StateForm(props: props) {
 
   const updateState = (state: string) => {
     setState(state)
+    console.log("in stateform: " + state)
   }
 
   // update firestore machine data
@@ -67,6 +68,7 @@ function StateForm(props: props) {
   }
 
   const setStateAvailable = async () => {
+    console.log("Set state available in stateform")
     const machineRef = doc(database, props.building, props.machine)
     await updateDoc(machineRef, {
       timerStarted: false,
@@ -130,6 +132,11 @@ function StateForm(props: props) {
           onPress={() => {
             openInCustomTab(workOrderLink)
           }}
+        />
+        <TimeForm
+          machineType={props.machine.split(" ")[0]}
+          building={props.building}
+          machine={props.machine}
         />
       </>
     )
