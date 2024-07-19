@@ -5,6 +5,7 @@ import TimeForm from "./timeForm"
 import { Button, Text, Platform } from "react-native"
 import * as Linking from "expo-linking"
 import * as WebBrowser from "expo-web-browser"
+import OutOfOrderForm from "./outOfOrderForm"
 
 const workOrderLink = `https://pomona.webtma.com/?tkn=zR_pJHKh9JP45Xg9RPojIH2irxyiuxkXCrWY6I1oLlEMORHMSIfRo8C50hsmXjJNq3CC4sh
 He74IdVLeZelp9ZkWK50Q_luNhA7JFwQ6Lx2OfJd_pFK2rvhrrqeXGqLQywWvEnvUiNo4WgeJcevA2BSHiAXEKNTLwt39ZqtjT4fFs-oTtdZ1O0gv8UN-bLkhcSL7e
@@ -34,6 +35,7 @@ function StateForm(props: props) {
   const [state, setState] = useState<string | null>(null) //change to props.state when i figure out how to set state to state in firestore database
   const [timerState, changeTimerState] = useState<boolean | null>(null)
   const [endTime, setEndTime] = useState(0)
+  const [outOfOrderDisplay, setOutOfOrderDisplay] = useState(false)
 
   useEffect(() => {
     const fetchMachineState = async () => {
@@ -54,6 +56,16 @@ function StateForm(props: props) {
     }
   }, [state])
 
+  const openOutOfOrderForm = () => {
+    return(
+    <OutOfOrderForm 
+      machineType={props.machine.split(" ")[0]}
+      building={props.building}
+      machine={props.machine}
+    />
+    )
+  } 
+
   const updateState = (state: string) => {
     setState(state)
   }
@@ -73,7 +85,7 @@ function StateForm(props: props) {
     })
   }
 
-  if (state === "available") {
+  if (state === "available" && !outOfOrderDisplay) {
     return (
       <>
         <Button
@@ -85,12 +97,29 @@ function StateForm(props: props) {
         <Button
           title="Out-Of-Order"
           onPress={() => {
-            updateState("out-of-order")
             openInCustomTab(workOrderLink)
+            setOutOfOrderDisplay(true)
           }}
         />
       </>
     )
+  } else if (state === "available" && outOfOrderDisplay) {
+    return (
+      <>
+        <Button
+          title="In-Use"
+          onPress={() => {
+            updateState("in-use")
+          }}
+        />
+        <OutOfOrderForm 
+      machineType={props.machine.split(" ")[0]}
+      building={props.building}
+      machine={props.machine}
+    />
+    </>
+    )
+
   } else if (state === "in-use") {
     return (
       <>
@@ -129,6 +158,7 @@ function StateForm(props: props) {
           title="Out-Of-Order"
           onPress={() => {
             openInCustomTab(workOrderLink)
+            openOutOfOrderForm()
           }}
         />
       </>
