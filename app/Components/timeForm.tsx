@@ -80,9 +80,10 @@ function TimeForm(props: props) {
   }
 
   useEffect(() => {
-    if (status) {
-      firebaseStatusUpdate(status)
-    }
+    firebaseStatusUpdate(status!)
+    // if (status) {
+    //   firebaseStatusUpdate(status)
+    // }
   }, [status])
 
   const firebaseStatusUpdate = async (state: string) => {
@@ -103,9 +104,9 @@ function TimeForm(props: props) {
         }}
       />
       <Button
-        title="1"
+        title="23"
         onPress={() => {
-          updateTime(0.2) // change time and end time
+          updateTime(23) // change time and end time
           timerStateUpdate(true)
           statusUpdate("in-use")
         }}
@@ -149,22 +150,23 @@ function TimeForm(props: props) {
           onFinish={() => {
             // if state is in use -> change to pending
             if (status === "in-use"){
-              console.log("205: " + status)
-              updateTime(0.25)
+              // console.log("205: " + status)
+              updateTime(10)
               statusUpdate("pending")
             }
             // this part does not work, tried to figure out why -> when statusUpdates runs and goes from in-use to pending, 
             //for some reason, the status here is null
             else if (status === "pending"){
-              console.log("207: " + status)
-              updateTime(0)
+              // console.log("207: " + status)
+              updateTime(10)
               statusUpdate("available")
+             
             }
             else {
               // talk to everyone else, see if they can figure out the issue with it so I don't have to rely on this
               // or see if it's ok to rely on this. is there any circumstances where this is bad?
-              console.log("in else and status is: " + status)
-              updateTime(0)
+              // console.log("in else and status is: " + status)
+              updateTime(10)
               statusUpdate("available")
             }
 
