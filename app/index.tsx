@@ -1,13 +1,5 @@
 import { Link } from "expo-router"
-import {
-  Text,
-  View,
-  Image,
-  ImageBackground,
-  Dimensions,
-  ScrollView,
-  Platform,
-} from "react-native"
+import { Text, View, ImageBackground, ScrollView, Image } from "react-native"
 import database from "./firebase/firestoreInitialize"
 import { collection } from "firebase/firestore"
 import Building from "./Classes/Building"
@@ -53,29 +45,17 @@ const TrackBuildingName = (buildingName: string) => {
 
 // list of linked images, all leading to their respective building page
 const ListofBuildings = buildingNames.map(building => {
-  // format icon size based on platform
-  let width: number
-  if (
-    Platform.OS === "web" ||
-    Platform.OS === "macos" ||
-    Platform.OS === "windows"
-  ) {
-    width = Dimensions.get("window").width * 0.1
-  } else {
-    width = Dimensions.get("window").width * 0.4
-  }
-
   return (
     <Link
       href={`./screens/${building}`}
       key={building}
       onPress={() => TrackBuildingName(building)}
-      style={[styles.buildingLink, { width: width, height: width }]}
+      style={[styles.buildingLink]}
     >
       <ImageBackground
         source={require("../assets/images/dormButton.png")}
         resizeMode="cover"
-        style={[styles.buildingLogo, { width: width, height: width }]}
+        style={[styles.buildingLogo]}
       >
         <View style={styles.buildingTextContainer}>
           <View style={styles.buildingTextFrame}>
@@ -112,6 +92,28 @@ const Homepage = () => {
         </Text>
         <View style={styles.container}>{ListofBuildings}</View>
       </ScrollView>
+      <View
+        style={{
+          padding: 50,
+          flex: 1,
+          justifyContent: "flex-end",
+          flexDirection: "row",
+        }}
+      >
+        <Link
+          href={"./screens/qrCodeScan/qrCodeScanner"}
+          style={{
+            padding: 30,
+            bottom: 30,
+            left: 20,
+          }}
+        >
+          <Image
+            source={require("../assets/images/scanButton.png")}
+            style={{ flex: 1 }}
+          ></Image>
+        </Link>
+      </View>
     </>
   )
 }

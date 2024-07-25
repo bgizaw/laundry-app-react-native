@@ -7,6 +7,7 @@ import {
   Platform,
   Dimensions,
   ScrollView,
+  Image,
 } from "react-native"
 import { collection, getDocs } from "firebase/firestore"
 import database from "../firebase/firestoreInitialize"
@@ -14,12 +15,6 @@ import Building from "../Classes/Building"
 import { useEffect, useState } from "react"
 import styles from "./laundryRoomStyles"
 import { useFonts } from "expo-font"
-import { useRoute } from "@react-navigation/native"
-
-interface WasherDryerObject {
-  washerCount: number
-  dryerCount: number
-}
 
 const TrackBuildingName = (buildingName: string) => {
   let collectionRef = collection(database, buildingName)
@@ -93,64 +88,91 @@ const BuildingPage = () => {
   } else {
     // washer and dryer logos that link to each individual washer and dryer page
     return (
-      <ScrollView>
-        <Text style={styles.laundryRoomTitle}>{nameOfBuilding}</Text>
-        <View style={styles.container}>
-          {washers.map(washer => (
-            <Link
-              key={washer}
-              href={{
-                pathname: `./[Building]/Washer/${washer}`,
-                params: { Building: nameOfBuilding },
-              }}
-              style={styles.machineLink}
-            >
-              <ImageBackground
-                source={require("../../assets/images/dormButton.png")}
-                resizeMode="cover"
-                style={[styles.machineLogo, { width: width, height: width }]}
+      <>
+        <ScrollView>
+          <Text style={styles.laundryRoomTitle}>{nameOfBuilding}</Text>
+          <View style={styles.container}>
+            {washers.map(washer => (
+              <Link
+                key={washer}
+                href={{
+                  pathname: `./[Building]/Washer/${washer}`,
+                  params: { Building: nameOfBuilding },
+                }}
+                style={styles.machineLink}
               >
-                <View style={styles.machineTextContainer}>
-                  <View style={styles.machineTextFrame}>
-                    <Text
-                      style={[styles.machineText, { fontFamily: "jaldi-bold" }]}
-                    >
-                      {washer}
-                    </Text>
+                <ImageBackground
+                  source={require("../../assets/images/dormButton.png")}
+                  resizeMode="cover"
+                  style={[styles.machineLogo, { width: width, height: width }]}
+                >
+                  <View style={styles.machineTextContainer}>
+                    <View style={styles.machineTextFrame}>
+                      <Text
+                        style={[
+                          styles.machineText,
+                          { fontFamily: "jaldi-bold" },
+                        ]}
+                      >
+                        {washer}
+                      </Text>
+                    </View>
                   </View>
-                </View>
-              </ImageBackground>
-            </Link>
-          ))}
+                </ImageBackground>
+              </Link>
+            ))}
 
-          {dryers.map(dryer => (
-            <Link
-              key={dryer}
-              href={{
-                pathname: `./[Building]/Dryer/${dryer}`,
-                params: { Building: nameOfBuilding },
-              }}
-              style={styles.machineLink}
-            >
-              <ImageBackground
-                source={require("../../assets/images/dormButton.png")}
-                resizeMode="cover"
-                style={[styles.machineLogo, { width: width, height: width }]}
+            {dryers.map(dryer => (
+              <Link
+                key={dryer}
+                href={{
+                  pathname: `./[Building]/Dryer/${dryer}`,
+                  params: { Building: nameOfBuilding },
+                }}
+                style={styles.machineLink}
               >
-                <View style={styles.machineTextContainer}>
-                  <View style={styles.machineTextFrame}>
-                    <Text
-                      style={[styles.machineText, { fontFamily: "jaldi-bold" }]}
-                    >
-                      {dryer}
-                    </Text>
+                <ImageBackground
+                  source={require("../../assets/images/dormButton.png")}
+                  resizeMode="cover"
+                  style={[styles.machineLogo, { width: width, height: width }]}
+                >
+                  <View style={styles.machineTextContainer}>
+                    <View style={styles.machineTextFrame}>
+                      <Text
+                        style={[
+                          styles.machineText,
+                          { fontFamily: "jaldi-bold" },
+                        ]}
+                      >
+                        {dryer}
+                      </Text>
+                    </View>
                   </View>
-                </View>
-              </ImageBackground>
-            </Link>
-          ))}
+                </ImageBackground>
+              </Link>
+            ))}
+          </View>
+        </ScrollView>
+        <View
+          style={{
+            padding: 50,
+            flex: 1,
+            justifyContent: "flex-end",
+            flexDirection: "row",
+            backgroundColor: "#FFFFFF",
+          }}
+        >
+          <Link
+            href={"./qrCodeScan/qrCodeScanner"}
+            style={{ padding: 30, bottom: 30, left: 20 }}
+          >
+            <Image
+              source={require("../../assets/images/scanButton.png")}
+              style={{ flex: 1 }}
+            ></Image>
+          </Link>
         </View>
-      </ScrollView>
+      </>
     )
   }
 }

@@ -1,5 +1,5 @@
-import { Text, View } from "react-native"
-import { useGlobalSearchParams } from "expo-router"
+import { Text, View, Image } from "react-native"
+import { Link, useGlobalSearchParams } from "expo-router"
 import StateForm from "../../../Components/stateForm"
 import { useFonts } from "expo-font"
 
@@ -16,10 +16,31 @@ const DryerPage = () => {
   })
 
   return (
-    <View>
-      <Text style={{ fontSize: 30 }}>{title}</Text>
-      <StateForm building={building} machine={dryer} />
-    </View>
+    <>
+      <View>
+        <Text style={{ fontSize: 30 }}>{title}</Text>
+        <StateForm building={building} machine={dryer} />
+      </View>
+      <View
+        style={{
+          padding: 50,
+          flex: 1,
+          justifyContent: "flex-end",
+          flexDirection: "row",
+          backgroundColor: "#FFFFFF",
+        }}
+      >
+        <Link
+          href={"../../qrCodeScan/qrCodeScanner"}
+          style={{ padding: 30, bottom: 30, left: 20 }}
+        >
+          <Image
+            source={require("../../../../assets/images/scanButton.png")}
+            style={{ flex: 1 }}
+          ></Image>
+        </Link>
+      </View>
+    </>
   )
 }
 
