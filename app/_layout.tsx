@@ -1,6 +1,8 @@
 import React from "react"
 import { Link, Stack } from "expo-router"
-import { Image } from "react-native"
+import { Image, View } from "react-native"
+import Menu from "./screens/menu/menuButton"
+import PomonaLogo from "../assets/images/pomonaLogo"
 
 const _layout = () => {
   return (
@@ -10,12 +12,11 @@ const _layout = () => {
         headerTitleAlign: "center",
         headerRight: () => (
           <Link href={"/"}>
-            <Image
-              source={require("../assets/images/pomonaLogo.png")}
-              style={{ marginRight: 10 }}
-            ></Image>
+            <PomonaLogo style={{ marginRight: 10 }} />
           </Link>
         ),
+        headerLeft: () => <Menu />,
+        headerBackVisible: true,
       }}
     >
       <Stack.Screen
@@ -46,6 +47,12 @@ const _layout = () => {
         name="screens/qrCodeScan/qrCodeScanner"
         options={{
           headerTitle: "QR Code Scanner",
+        }}
+      ></Stack.Screen>
+      <Stack.Screen
+        name="screens/menu/menu"
+        options={{
+          headerTitle: "Menu",
         }}
       ></Stack.Screen>
     </Stack>

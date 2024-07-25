@@ -2,6 +2,7 @@ import { Text, View, Image } from "react-native"
 import { Link, useGlobalSearchParams } from "expo-router"
 import StateForm from "../../../Components/stateForm"
 import { useFonts } from "expo-font"
+import ScannerButton from "../../../../assets/images/scannerButton"
 
 const DryerPage = () => {
   const linkData = useGlobalSearchParams()
@@ -34,10 +35,7 @@ const DryerPage = () => {
           href={"../../qrCodeScan/qrCodeScanner"}
           style={{ padding: 30, bottom: 30, left: 20 }}
         >
-          <Image
-            source={require("../../../../assets/images/scanButton.png")}
-            style={{ flex: 1 }}
-          ></Image>
+          <ScannerButton />
         </Link>
       </View>
     </>

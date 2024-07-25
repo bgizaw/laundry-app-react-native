@@ -16,13 +16,13 @@
       "supportsTablet": true
     },
     "android": {
-      // "adaptiveIcon": {
-      //   "foregroundImage": "./assets/adaptive-icon.png",
-      //   "backgroundColor": "#ffffff"
-      // }
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
+      }
     },
     "web": {
-      "favicon": "./assets/images/favicon.png",
+      "favicon": "./assets/favicon.png",
       "bundler": "metro"
     },
     "plugins": [

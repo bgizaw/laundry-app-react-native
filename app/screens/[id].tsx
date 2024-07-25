@@ -15,6 +15,7 @@ import Building from "../Classes/Building"
 import { useEffect, useState } from "react"
 import styles from "./laundryRoomStyles"
 import { useFonts } from "expo-font"
+import ScannerButton from "../../assets/images/scannerButton"
 
 const TrackBuildingName = (buildingName: string) => {
   let collectionRef = collection(database, buildingName)
@@ -166,10 +167,7 @@ const BuildingPage = () => {
             href={"./qrCodeScan/qrCodeScanner"}
             style={{ padding: 30, bottom: 30, left: 20 }}
           >
-            <Image
-              source={require("../../assets/images/scanButton.png")}
-              style={{ flex: 1 }}
-            ></Image>
+            <ScannerButton />
           </Link>
         </View>
       </>

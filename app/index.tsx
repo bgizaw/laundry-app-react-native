@@ -6,6 +6,7 @@ import Building from "./Classes/Building"
 import styles from "./homePageStyles"
 import { useFonts } from "expo-font"
 import { useEffect } from "react"
+import ScannerButton from "../assets/images/scannerButton"
 
 const buildingNames = [
   "Sontag",
@@ -103,15 +104,13 @@ const Homepage = () => {
         <Link
           href={"./screens/qrCodeScan/qrCodeScanner"}
           style={{
-            padding: 30,
+            padding: 40,
             bottom: 30,
             left: 20,
+            // flex: 1,
           }}
         >
-          <Image
-            source={require("../assets/images/scanButton.png")}
-            style={{ flex: 1 }}
-          ></Image>
+          <ScannerButton />
         </Link>
       </View>
     </>

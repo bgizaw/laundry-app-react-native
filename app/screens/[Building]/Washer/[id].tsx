@@ -5,11 +5,12 @@ import database from "../../../firebase/firestoreInitialize"
 import { doc, getDoc } from "firebase/firestore"
 import { useEffect, useState } from "react"
 import { useFonts } from "expo-font"
+import ScannerButton from "../../../../assets/images/scannerButton"
 
 const WasherPage = () => {
   const linkData = useGlobalSearchParams()
-  const building: string = linkData.Building?.toString()!
-  const washer: string = linkData.id!.toString()
+  const building: string = String(linkData.Building!)
+  const washer: string = String(linkData.id!)
   const title = building + " " + washer
 
   // load fonts
@@ -37,10 +38,7 @@ const WasherPage = () => {
           href={"../../qrCodeScan/qrCodeScanner"}
           style={{ padding: 30, bottom: 30, left: 20 }}
         >
-          <Image
-            source={require("../../../../assets/images/scanButton.png")}
-            style={{ flex: 1 }}
-          ></Image>
+          <ScannerButton />
         </Link>
       </View>
     </>
