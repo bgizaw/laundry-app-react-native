@@ -1,8 +1,8 @@
 import { View, Text } from "react-native"
-import React, { useState } from "react"
 import { Link } from "expo-router"
 import DormAccordion from "./dormAccordion"
 import { useFonts } from "expo-font"
+import styles from "./menuStyles"
 
 const Menu = () => {
   // load fonts
@@ -11,17 +11,14 @@ const Menu = () => {
     "jaldi-regular": require("../../../assets/fonts/Jaldi-Regular.ttf"),
   })
   return (
-    <View style={{ flex: 1, alignItems: "center" }}>
-      <View
-        style={{
-          alignItems: "center",
-          backgroundColor: "yellow",
-          width: 300,
-          flex: 1,
-        }}
-      >
-        <Link href={"/"}>Home</Link>
-        <Link href={"../qrCodeScan/qrCodeScanner"}>Scan</Link>
+    <View style={styles.pageContainer}>
+      <View style={styles.menuContainer}>
+        <Link href={"/"} style={styles.textStyle}>
+          Home
+        </Link>
+        <Link href={"../qrCodeScan/qrCodeScanner"} style={styles.textStyle}>
+          Scan
+        </Link>
         <DormAccordion />
       </View>
     </View>

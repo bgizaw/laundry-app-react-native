@@ -1,10 +1,13 @@
 import React from "react"
-import { Link, Stack } from "expo-router"
-import { Image, View } from "react-native"
+import { Link, Stack, useRouter } from "expo-router"
 import Menu from "./screens/menu/menuButton"
 import PomonaLogo from "../assets/images/pomonaLogo"
+import MenuExit from "../assets/images/menuExit"
+import { Pressable } from "react-native"
 
 const _layout = () => {
+  const router = useRouter()
+
   return (
     <Stack
       screenOptions={{
@@ -53,6 +56,12 @@ const _layout = () => {
         name="screens/menu/menu"
         options={{
           headerTitle: "Menu",
+          headerLeft: () => (
+            <Pressable onPress={() => router.back()} style={{ marginLeft: 10 }}>
+              <MenuExit />
+            </Pressable>
+          ),
+          headerBackVisible: false,
         }}
       ></Stack.Screen>
     </Stack>

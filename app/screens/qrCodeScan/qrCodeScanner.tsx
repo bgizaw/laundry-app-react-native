@@ -24,11 +24,6 @@ function QrCodeScanner() {
     getCameraPermissions()
   }, [])
 
-  addEventListener("beforeunload", event => {})
-  onbeforeunload = event => {
-    setHasPermission(false)
-  }
-
   // everything I want to happen when qr code is scanned
   const handleBarCodeScanned = (type: string, data: string) => {
     if (!scanned) {
