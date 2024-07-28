@@ -46,7 +46,7 @@ const _layout = () => {
       <Stack.Screen
         name="screens/qrCodeScan/qrCodeScanner"
         options={{
-          headerTitle: "QR Code Scanner",
+          headerTitle: "Scan",
         }}
       ></Stack.Screen>
       <Stack.Screen

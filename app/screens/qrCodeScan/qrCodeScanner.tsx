@@ -1,12 +1,19 @@
 import React, { useState, useEffect } from "react"
-import { Text, View, StyleSheet, Button, Linking } from "react-native"
-import { CameraView, Camera, BarcodeScanningResult } from "expo-camera"
+import { Text, View, StyleSheet, Button, Platform } from "react-native"
+import { CameraView, Camera } from "expo-camera"
 import { useRouter } from "expo-router"
+import { useFonts } from "expo-font"
 
 function QrCodeScanner() {
   const [hasPermission, setHasPermission] = useState<boolean | null>(null)
   const [scanned, setScanned] = useState(false)
   const router = useRouter()
+
+  // load fonts
+  const [isLoaded] = useFonts({
+    "jaldi-bold": require("../../../assets/fonts/Jaldi-Bold.ttf"),
+    "jaldi-regular": require("../../../assets/fonts/Jaldi-Regular.ttf"),
+  })
 
   useEffect(() => {
     const getCameraPermissions = async () => {
@@ -16,6 +23,11 @@ function QrCodeScanner() {
 
     getCameraPermissions()
   }, [])
+
+  addEventListener("beforeunload", event => {})
+  onbeforeunload = event => {
+    setHasPermission(false)
+  }
 
   // everything I want to happen when qr code is scanned
   const handleBarCodeScanned = (type: string, data: string) => {
@@ -41,22 +53,35 @@ function QrCodeScanner() {
   if (hasPermission === false) {
     return <Text>No access to camera</Text>
   }
-
-  return (
-    <View style={styles.container}>
-      <CameraView
-        onBarcodeScanned={({ type, data }) => handleBarCodeScanned(type, data)}
-        // onBarcodeScanned={({type, data}) => console.log(type, data)}
-        barcodeScannerSettings={{
-          barcodeTypes: ["qr"],
-        }}
-        style={StyleSheet.absoluteFillObject}
-      />
-      {scanned && (
-        <Button title={"Tap to Scan Again"} onPress={() => setScanned(false)} />
-      )}
-    </View>
-  )
+  if (Platform.OS === "web" && typeof window.navigator !== "undefined") {
+    return (
+      <Text style={{ textAlign: "center" }}>
+        Please open the website on a mobile web browser or use the app for QR
+        code scanning!
+      </Text>
+    )
+  } else {
+    return (
+      <View style={styles.container}>
+        <CameraView
+          onBarcodeScanned={({ type, data }) =>
+            handleBarCodeScanned(type, data)
+          }
+          // onBarcodeScanned={({type, data}) => console.log(type, data)}
+          barcodeScannerSettings={{
+            barcodeTypes: ["qr"],
+          }}
+          style={StyleSheet.absoluteFillObject}
+        />
+        {scanned && (
+          <Button
+            title={"Tap to Scan Again"}
+            onPress={() => setScanned(false)}
+          />
+        )}
+      </View>
+    )
+  }
 }
 
 const styles = StyleSheet.create({

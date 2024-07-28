@@ -99,6 +99,7 @@ const Homepage = () => {
           flex: 1,
           justifyContent: "flex-end",
           flexDirection: "row",
+          backgroundColor: "#FFFFFF",
         }}
       >
         <Link
