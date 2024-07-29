@@ -6,6 +6,7 @@ import { Button, Text, Platform } from "react-native"
 import * as Linking from "expo-linking"
 import * as WebBrowser from "expo-web-browser"
 import OutOfOrderForm from "./outOfOrderForm"
+import OutOfOrderDisplay from "./outOfOrderDisplay"
 
 const workOrderLink = `https://pomona.webtma.com/?tkn=zR_pJHKh9JP45Xg9RPojIH2irxyiuxkXCrWY6I1oLlEMORHMSIfRo8C50hsmXjJNq3CC4sh
 He74IdVLeZelp9ZkWK50Q_luNhA7JFwQ6Lx2OfJd_pFK2rvhrrqeXGqLQywWvEnvUiNo4WgeJcevA2BSHiAXEKNTLwt39ZqtjT4fFs-oTtdZ1O0gv8UN-bLkhcSL7e
@@ -119,6 +120,11 @@ function StateForm(props: props) {
       building={props.building}
       machine={props.machine}
     />
+        <OutOfOrderDisplay
+        machineType={props.machine.split(" ")[0]}
+        building={props.building}
+        machine={props.machine}
+      />
     </>
     )
 

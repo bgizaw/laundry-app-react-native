@@ -18,7 +18,7 @@ const OutOfOrderForm = (props: props) => {
 
     const [numComplaints, setNumComplaints] = useState<number>(0) 
     const [complaint, setComplaint] = useState("total")
-    const [dates, setDates] = useState<string[]>([])
+    const [dates, setDates] = useState<Date[]>([])
     const [otherComplaints, setOtherComplaints] = useState<string[]>([])
     const [otherComplaintEntry, setOtherComplaintEntry] = useState<string>("")
     const [readDates, setReadDates] = useState(false)
@@ -47,7 +47,7 @@ const OutOfOrderForm = (props: props) => {
 
     const handleOther = (otherComplaint: string) => {
         // let currDate = new Date().toDateString()
-        let entry: string = otherComplaint + ", " + (new Date().toDateString())
+        let entry: string = otherComplaint + ", " + (new Date())
         setOtherComplaintEntry(entry)
         // "(" + otherComplaint + ", " + (new Date().toDateString()) + ")"
         setComplaint("other")
@@ -103,7 +103,7 @@ const OutOfOrderForm = (props: props) => {
                 setOtherComplaints(otherComplaints => [...otherComplaints, otherComplaintEntry])
             }
             else {
-                setDates(dates => [...dates, Date.now().toLocaleString()])
+                setDates(dates => [...dates, new Date()])
             }
             setTotalComplaints(totalComplaints => totalComplaints + 1)
             // console.log(arr, "arr")
@@ -247,8 +247,8 @@ const OutOfOrderForm = (props: props) => {
                 
             }}
           /> */}
-          <Text>{numComplaints}</Text>
-          <Text>{dates}</Text>
+          {/* <Text>{numComplaints}</Text> */}
+          {/* <Text>{dates}</Text> */}
         </>
     )}
     else if (props.machineType == "Dryer"){
@@ -298,7 +298,7 @@ const OutOfOrderForm = (props: props) => {
             />
         ) */}
           <Text>{numComplaints}</Text>
-          <Text>{dates}</Text>
+          {/* <Text>{dates}</Text> */}
         </>
         )
     }
