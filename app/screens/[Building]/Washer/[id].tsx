@@ -11,6 +11,7 @@ const WasherPage = () => {
   const linkData = useGlobalSearchParams()
   const building: string = String(linkData.Building!)
   const washer: string = String(linkData.id!)
+  // create page title based on url path
   const title = building + " " + washer
 
   // load fonts

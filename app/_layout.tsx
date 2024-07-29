@@ -8,6 +8,7 @@ import { Pressable } from "react-native"
 const _layout = () => {
   const router = useRouter()
 
+  // every page in the application
   return (
     <Stack
       screenOptions={{
@@ -57,7 +58,13 @@ const _layout = () => {
         options={{
           headerTitle: "Menu",
           headerLeft: () => (
-            <Pressable onPress={() => router.back()} style={{ marginLeft: 10 }}>
+            <Pressable
+              onPress={() => router.back()}
+              style={
+                { marginLeft: 10 }
+                // close menu page when x is clicked
+              }
+            >
               <MenuExit />
             </Pressable>
           ),

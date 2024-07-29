@@ -39,6 +39,7 @@ const BuildingPage = () => {
   useEffect(() => {
     const db = TrackBuildingName(nameOfBuilding).database!
 
+    // put all washers and dryers within building collection in a list
     getDocs(db)
       .then(snapshot => {
         let machines: any[] = []

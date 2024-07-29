@@ -48,15 +48,12 @@ function StateForm(props: props) {
     fetchMachineState()
   }, [])
 
+  // rerenders page with new state every time state is updated
   useEffect(() => {
     if (state) {
       stateUpdate(state)
     }
   }, [state])
-
-  const updateState = (state: string) => {
-    setState(state)
-  }
 
   // update firestore machine data
   const stateUpdate = async (state: string) => {
@@ -79,13 +76,13 @@ function StateForm(props: props) {
         <Button
           title="In-Use"
           onPress={() => {
-            updateState("in-use")
+            setState("in-use")
           }}
         />
         <Button
           title="Out-Of-Order"
           onPress={() => {
-            updateState("out-of-order")
+            setState("out-of-order")
             openInCustomTab(workOrderLink)
           }}
         />
@@ -98,7 +95,7 @@ function StateForm(props: props) {
         <Button
           title="Available"
           onPress={() => {
-            updateState("available")
+            setState("available")
             setStateAvailable()
           }}
         />
@@ -116,13 +113,13 @@ function StateForm(props: props) {
         <Button
           title="Available"
           onPress={() => {
-            updateState("available")
+            setState("available")
           }}
         />
         <Button
           title="In-Use"
           onPress={() => {
-            updateState("in-use")
+            setState("in-use")
           }}
         />
         <Button

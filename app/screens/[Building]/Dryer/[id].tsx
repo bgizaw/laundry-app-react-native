@@ -8,6 +8,7 @@ const DryerPage = () => {
   const linkData = useGlobalSearchParams()
   const building: string = linkData.Building?.toString()!
   const dryer: string = linkData.id!.toString()
+  // create page title based on url path
   const title = building + " " + dryer
 
   // load fonts
