@@ -54,6 +54,7 @@ function TimeForm(props: props) {
   }, [])
 
   useEffect(() => {
+    console.log(timerState, "timer state")
     if (timerState != null) {
       timeUpdate(time)
     }
@@ -143,6 +144,8 @@ function TimeForm(props: props) {
     return (
       <>
         <Text>Countdown</Text>
+        <Text>{endTime}</Text>
+
         <CountDown
           key={time} //makes countdown display current value of time instead of previous
           until={endTime - new Date().getTime() / 1000} //60 seconds in a minute

@@ -1,52 +1,74 @@
 import React from "react"
-import { Stack } from "expo-router"
-import { Image } from "react-native"
+import { Link, Stack, useRouter } from "expo-router"
+import Menu from "./screens/menu/menuButton"
+import PomonaLogo from "../assets/images/pomonaLogo"
+import MenuExit from "../assets/images/menuExit"
+import { Pressable } from "react-native"
 
 const _layout = () => {
+  const router = useRouter()
+
+  // every page in the application
   return (
-    <Stack>
+    <Stack
+      screenOptions={{
+        headerTitleStyle: { fontFamily: "jaldi-bold", fontSize: 27 },
+        headerTitleAlign: "center",
+        headerRight: () => (
+          <Link href={"/"}>
+            <PomonaLogo style={{ marginRight: 10 }} />
+          </Link>
+        ),
+        headerLeft: () => <Menu />,
+        headerBackVisible: true,
+      }}
+    >
       <Stack.Screen
         name="index"
         options={{
           headerTitle: "Home",
-          headerTitleStyle: { fontFamily: "jaldi-bold", fontSize: 27 },
-          headerTitleAlign: "center",
-          headerRight: () => (
-            <Image
-              source={require("../assets/images/pomonaLogo.png")}
-              style={{ marginRight: 10 }}
-            ></Image>
-          ),
         }}
       ></Stack.Screen>
       <Stack.Screen
         name="screens/[id]"
         options={{
           headerTitle: "Laundry Room",
-          headerTitleStyle: { fontFamily: "jaldi-bold", fontSize: 27 },
-          headerTitleAlign: "center",
-          headerRight: () => (
-            <Image
-              source={require("../assets/images/pomonaLogo.png")}
-              style={{ marginRight: 10 }}
-            ></Image>
-          ),
         }}
       ></Stack.Screen>
       <Stack.Screen
         name="screens/[Building]/Washer/[id]"
         options={{
           headerTitle: "Washer",
-          headerTitleStyle: { fontFamily: "jaldi-bold", fontSize: 27 },
-          headerTitleAlign: "center",
         }}
       ></Stack.Screen>
       <Stack.Screen
         name="screens/[Building]/Dryer/[id]"
         options={{
           headerTitle: "Dryer",
-          headerTitleStyle: { fontFamily: "jaldi-bold", fontSize: 27 },
-          headerTitleAlign: "center",
+        }}
+      ></Stack.Screen>
+      <Stack.Screen
+        name="screens/qrCodeScan/qrCodeScanner"
+        options={{
+          headerTitle: "Scan",
+        }}
+      ></Stack.Screen>
+      <Stack.Screen
+        name="screens/menu/menu"
+        options={{
+          headerTitle: "Menu",
+          headerLeft: () => (
+            <Pressable
+              onPress={() => router.back()}
+              style={
+                { marginLeft: 10 }
+                // close menu page when x is clicked
+              }
+            >
+              <MenuExit />
+            </Pressable>
+          ),
+          headerBackVisible: false,
         }}
       ></Stack.Screen>
     </Stack>

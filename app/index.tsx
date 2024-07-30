@@ -1,19 +1,12 @@
 import { Link } from "expo-router"
-import {
-  Text,
-  View,
-  Image,
-  ImageBackground,
-  Dimensions,
-  ScrollView,
-  Platform,
-} from "react-native"
+import { Text, View, ImageBackground, ScrollView, Image } from "react-native"
 import database from "./firebase/firestoreInitialize"
 import { collection } from "firebase/firestore"
 import Building from "./Classes/Building"
 import styles from "./homePageStyles"
 import { useFonts } from "expo-font"
 import { useEffect } from "react"
+import ScannerButton from "../assets/images/scannerButton"
 
 const buildingNames = [
   "Sontag",
@@ -53,29 +46,17 @@ const TrackBuildingName = (buildingName: string) => {
 
 // list of linked images, all leading to their respective building page
 const ListofBuildings = buildingNames.map(building => {
-  // format icon size based on platform
-  let width: number
-  if (
-    Platform.OS === "web" ||
-    Platform.OS === "macos" ||
-    Platform.OS === "windows"
-  ) {
-    width = Dimensions.get("window").width * 0.1
-  } else {
-    width = Dimensions.get("window").width * 0.4
-  }
-
   return (
     <Link
       href={`./screens/${building}`}
       key={building}
       onPress={() => TrackBuildingName(building)}
-      style={[styles.buildingLink, { width: width, height: width }]}
+      style={[styles.buildingLink]}
     >
       <ImageBackground
         source={require("../assets/images/dormButton.png")}
         resizeMode="cover"
-        style={[styles.buildingLogo, { width: width, height: width }]}
+        style={[styles.buildingLogo]}
       >
         <View style={styles.buildingTextContainer}>
           <View style={styles.buildingTextFrame}>
@@ -112,6 +93,27 @@ const Homepage = () => {
         </Text>
         <View style={styles.container}>{ListofBuildings}</View>
       </ScrollView>
+      <View
+        style={{
+          padding: 50,
+          flex: 1,
+          justifyContent: "flex-end",
+          flexDirection: "row",
+          backgroundColor: "#FFFFFF",
+        }}
+      >
+        <Link
+          href={"./screens/qrCodeScan/qrCodeScanner"}
+          style={{
+            padding: 40,
+            bottom: 30,
+            left: 20,
+            // flex: 1,
+          }}
+        >
+          <ScannerButton />
+        </Link>
+      </View>
     </>
   )
 }
