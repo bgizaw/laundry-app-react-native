@@ -15,6 +15,7 @@ function QrCodeScanner() {
     "jaldi-regular": require("../../../assets/fonts/Jaldi-Regular.ttf"),
   })
 
+  // request user camera permission
   useEffect(() => {
     const getCameraPermissions = async () => {
       const { status } = await Camera.requestCameraPermissionsAsync()
@@ -48,7 +49,8 @@ function QrCodeScanner() {
   if (hasPermission === false) {
     return <Text>No access to camera</Text>
   }
-  if (Platform.OS === "web" && typeof window.navigator !== "undefined") {
+  // we don't want the scanner to open if user is on their desktop
+  if (Platform.OS === "web") {
     return (
       <Text style={{ textAlign: "center" }}>
         Please open the website on a mobile web browser or use the app for QR
