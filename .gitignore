@@ -41,5 +41,5 @@ yarn-error.*
 .vscode
 
 # firebase api key file
-app/firebase/firestoreInitialize
-app/firebase/firestoreDataAutomater
+app/firebase/firestoreInitialize.tsx
+app/firebase/firestoreDataAutomater.tsx
