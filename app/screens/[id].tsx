@@ -9,13 +9,22 @@ import {
   ScrollView,
   Image,
 } from "react-native"
-import { collection, getDocs } from "firebase/firestore"
+import {
+  FirestoreError,
+  QuerySnapshot,
+  collection,
+  doc,
+  getDocs,
+  onSnapshot,
+  query,
+} from "firebase/firestore"
 import database from "../firebase/firestoreInitialize"
 import Building from "../Classes/Building"
 import { useEffect, useState } from "react"
 import styles from "./laundryRoomStyles"
 import { useFonts } from "expo-font"
 import ScannerButton from "../../assets/images/scannerButton"
+import MachineIconRect from "../../assets/images/machineIconRect"
 
 const TrackBuildingName = (buildingName: string) => {
   let collectionRef = collection(database, buildingName)
@@ -24,9 +33,22 @@ const TrackBuildingName = (buildingName: string) => {
   return buildingInstance
 }
 
+interface StatesType {
+  [key: string]: string // Adjust the type of the value as needed
+}
+
 const BuildingPage = () => {
   const [loading, setLoading] = useState(true)
   const [machines, setMachines] = useState<{ id: string }[]>([])
+  const [states, setStates] = useState<StatesType>({})
+  const stateHues = {
+    available: "#9BFFBD",
+    inUse: "#FF6B6B",
+    pending: "#A4A4A4",
+    outOfOrder: "#FFB629",
+  }
+  // const states = {}
+
   let buildingNameObject = useLocalSearchParams()
   let nameOfBuilding = buildingNameObject.id as string
 
@@ -37,10 +59,11 @@ const BuildingPage = () => {
   })
 
   useEffect(() => {
-    const db = TrackBuildingName(nameOfBuilding).database!
+    const buildingCollection = TrackBuildingName(nameOfBuilding).database!
 
     // put all washers and dryers within building collection in a list
-    getDocs(db)
+
+    getDocs(buildingCollection)
       .then(snapshot => {
         let machines: any[] = []
         snapshot.docs.forEach(doc => {
@@ -52,6 +75,17 @@ const BuildingPage = () => {
       .catch(err => {
         console.log(err.message)
       })
+
+    // track machine states
+    const stateUpdates = onSnapshot(buildingCollection, snapshot => {
+      snapshot.docs.forEach(doc => {
+        // Object.assign(states, { [doc.id]: doc.data().status })
+        setStates(prevStates => ({
+          ...prevStates,
+          [doc.id]: doc.data().status,
+        }))
+      })
+    })
   }, [])
 
   // height and width of icons will be based on screen size (icons are squares so width can represent height as well)
@@ -79,13 +113,64 @@ const BuildingPage = () => {
     }
   })
 
+  // retreive the fill color based on the state passed in
+  const stringStateToFillValue = (stringState: string) => {
+    if (stringState === "available") {
+      return stateHues.available
+    } else if (stringState === "in-use") {
+      return stateHues.inUse
+    } else if (stringState === "out-of-order") {
+      return stateHues.outOfOrder
+    } else if (stringState === "pending") {
+      return stateHues.pending
+    }
+  }
+
+  // return list of linked washer logos
+  const washerLogos = () => {
+    return washers.map(washer => (
+      <Link
+        key={washer}
+        href={{
+          pathname: `./[Building]/Washer/${washer}`,
+          params: { Building: nameOfBuilding },
+        }}
+        style={styles.machineLink}
+      >
+        <MachineIconRect
+          fill={stringStateToFillValue(states[washer])}
+          key={states[washer]}
+        />
+      </Link>
+    ))
+  }
+
+  // return list of linked dryer logos
+  const dryerLogos = () => {
+    return dryers.map(dryer => (
+      <Link
+        key={dryer}
+        href={{
+          pathname: `./[Building]/Dryer/${dryer}`,
+          params: { Building: nameOfBuilding },
+        }}
+        style={styles.machineLink}
+      >
+        <MachineIconRect
+          fill={stringStateToFillValue(states[dryer])}
+          key={states[dryer]}
+        />
+      </Link>
+    ))
+  }
+
   // loading screen
   if (loading) {
     return (
-      <>
+      <View style={{ flex: 1, justifyContent: "center" }}>
         <ActivityIndicator />
-        <Text>Loading</Text>
-      </>
+        <Text style={{ textAlign: "center" }}>Loading</Text>
+      </View>
     )
   } else {
     // washer and dryer logos that link to each individual washer and dryer page
@@ -94,65 +179,9 @@ const BuildingPage = () => {
         <ScrollView>
           <Text style={styles.laundryRoomTitle}>{nameOfBuilding}</Text>
           <View style={styles.container}>
-            {washers.map(washer => (
-              <Link
-                key={washer}
-                href={{
-                  pathname: `./[Building]/Washer/${washer}`,
-                  params: { Building: nameOfBuilding },
-                }}
-                style={styles.machineLink}
-              >
-                <ImageBackground
-                  source={require("../../assets/images/dormButton.png")}
-                  resizeMode="cover"
-                  style={[styles.machineLogo, { width: width, height: width }]}
-                >
-                  <View style={styles.machineTextContainer}>
-                    <View style={styles.machineTextFrame}>
-                      <Text
-                        style={[
-                          styles.machineText,
-                          { fontFamily: "jaldi-bold" },
-                        ]}
-                      >
-                        {washer}
-                      </Text>
-                    </View>
-                  </View>
-                </ImageBackground>
-              </Link>
-            ))}
+            {washerLogos()}
 
-            {dryers.map(dryer => (
-              <Link
-                key={dryer}
-                href={{
-                  pathname: `./[Building]/Dryer/${dryer}`,
-                  params: { Building: nameOfBuilding },
-                }}
-                style={styles.machineLink}
-              >
-                <ImageBackground
-                  source={require("../../assets/images/dormButton.png")}
-                  resizeMode="cover"
-                  style={[styles.machineLogo, { width: width, height: width }]}
-                >
-                  <View style={styles.machineTextContainer}>
-                    <View style={styles.machineTextFrame}>
-                      <Text
-                        style={[
-                          styles.machineText,
-                          { fontFamily: "jaldi-bold" },
-                        ]}
-                      >
-                        {dryer}
-                      </Text>
-                    </View>
-                  </View>
-                </ImageBackground>
-              </Link>
-            ))}
+            {dryerLogos()}
           </View>
         </ScrollView>
         <View
