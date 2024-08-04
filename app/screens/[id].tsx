@@ -9,22 +9,14 @@ import {
   ScrollView,
   Image,
 } from "react-native"
-import {
-  FirestoreError,
-  QuerySnapshot,
-  collection,
-  doc,
-  getDocs,
-  onSnapshot,
-  query,
-} from "firebase/firestore"
+import { collection, getDocs, onSnapshot } from "firebase/firestore"
 import database from "../firebase/firestoreInitialize"
 import Building from "../Classes/Building"
 import { useEffect, useState } from "react"
 import styles from "./laundryRoomStyles"
 import { useFonts } from "expo-font"
 import ScannerButton from "../../assets/images/scannerButton"
-import MachineIconRect from "../../assets/images/machineIconRect"
+import MachineIcon from "../../assets/images/machineIcon"
 
 const TrackBuildingName = (buildingName: string) => {
   let collectionRef = collection(database, buildingName)
@@ -137,10 +129,24 @@ const BuildingPage = () => {
         }}
         style={styles.machineLink}
       >
-        <MachineIconRect
-          fill={stringStateToFillValue(states[washer])}
-          key={states[washer]}
-        />
+        <View>
+          <Text
+            style={{
+              fontFamily: "jaldi-bold",
+              fontSize: 25,
+              textAlign: "center",
+            }}
+          >
+            {washer}
+          </Text>
+          <MachineIcon
+            fill={stringStateToFillValue(states[washer])}
+            key={states[washer]}
+            width={width}
+            height={width}
+            text={states[washer]}
+          />
+        </View>
       </Link>
     ))
   }
@@ -156,10 +162,24 @@ const BuildingPage = () => {
         }}
         style={styles.machineLink}
       >
-        <MachineIconRect
-          fill={stringStateToFillValue(states[dryer])}
-          key={states[dryer]}
-        />
+        <View>
+          <Text
+            style={{
+              fontFamily: "jaldi-bold",
+              fontSize: 25,
+              textAlign: "center",
+            }}
+          >
+            {dryer}
+          </Text>
+          <MachineIcon
+            fill={stringStateToFillValue(states[dryer])}
+            key={states[dryer]}
+            width={width}
+            height={width}
+            text={states[dryer]}
+          />
+        </View>
       </Link>
     ))
   }
