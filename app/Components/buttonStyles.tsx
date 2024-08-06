@@ -5,6 +5,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
+    marginTop: 20,
   },
 
   button: {
@@ -13,7 +14,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#8fcffe",
     width: 150,
     height: 50,
-    borderColor: "#FFFFFF",
+    borderColor: "#000000",
     borderWidth: 2,
     borderRadius: 5,
     marginTop: 5,

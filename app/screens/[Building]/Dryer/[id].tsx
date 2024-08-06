@@ -20,7 +20,7 @@ const DryerPage = () => {
   return (
     <>
       <View>
-        <Text style={{ fontSize: 30 }}>{title}</Text>
+        <Text style={{ fontSize: 30, textAlign: "center" }}>{title}</Text>
         <StateForm building={building} machine={dryer} />
       </View>
       <View

@@ -25,7 +25,22 @@ const WasherPage = () => {
     return (
       <>
         <View style={{ backgroundColor: "#FFFFFF" }}>
-          <Text style={{ fontSize: 30 }}>{title}</Text>
+          <View style={{ flexDirection: "row", alignItems: "center" }}>
+            <View style={{ flex: 1, height: 1, backgroundColor: "black" }} />
+            <View>
+              <Text
+                style={{
+                  width: 210,
+                  textAlign: "center",
+                  fontFamily: "jaldi-bold",
+                  fontSize: 30,
+                }}
+              >
+                {title}
+              </Text>
+            </View>
+            <View style={{ flex: 1, height: 1, backgroundColor: "black" }} />
+          </View>
           <StateFormWeb building={building} machine={washer} />
         </View>
         <View
@@ -49,8 +64,23 @@ const WasherPage = () => {
   } else {
     return (
       <>
-        <View style={{ flex: 4, backgroundColor: "#FFFFFF" }}>
-          <Text style={{ fontSize: 30 }}>{title}</Text>
+        <View style={{ backgroundColor: "#FFFFFF" }}>
+          <View style={{ flexDirection: "row", alignItems: "center" }}>
+            <View style={{ flex: 1, height: 1, backgroundColor: "black" }} />
+            <View>
+              <Text
+                style={{
+                  width: 210,
+                  textAlign: "center",
+                  fontFamily: "jaldi-bold",
+                  fontSize: 30,
+                }}
+              >
+                {title}
+              </Text>
+            </View>
+            <View style={{ flex: 1, height: 1, backgroundColor: "black" }} />
+          </View>
           <StateFormWeb building={building} machine={washer} />
         </View>
         <View
