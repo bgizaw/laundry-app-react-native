@@ -1,8 +1,9 @@
 import { doc, onSnapshot, updateDoc } from "firebase/firestore"
 import { useState, useEffect } from "react"
-import { Button, Text } from "react-native"
+import { Button, Text, View, Pressable } from "react-native"
 import database from "../firebase/firestoreInitialize"
 import CountDown from "react-native-countdown-component"
+import styles from "./buttonStyles"
 
 type props = {
   machineType: string
@@ -74,7 +75,7 @@ function TimeForm(props: props) {
   }
 
   const statusUpdate = (newstatus: string) => {
-    if (newstatus != "" || newstatus != null){
+    if (newstatus != "" || newstatus != null) {
       setStatus(newstatus)
       console.log(newstatus)
     }
@@ -90,44 +91,55 @@ function TimeForm(props: props) {
   const firebaseStatusUpdate = async (state: string) => {
     const machineRef = doc(database, props.building, props.machine)
     await updateDoc(machineRef, {
-      status: state
+      status: state,
     })
   }
 
   const washerTimeButtons = (
     <>
-      <Button
+      <View style={styles.container}>
+        {/* <Button
         title="0"
         onPress={() => {
           updateTime(0)
           timerStateUpdate(false)
           console.log("state changed in button")
         }}
-      />
-      <Button
-        title="23"
-        onPress={() => {
-          updateTime(23) // change time and end time
-          timerStateUpdate(true)
-          statusUpdate("in-use")
-        }}
-      />
-      <Button
-        title="26"
-        onPress={() => {
-          updateTime(26)
-          timerStateUpdate(true)
-          statusUpdate("in-use")
-        }}
-      />
-      <Button
-        title="29"
-        onPress={() => {
-          updateTime(29)
-          timerStateUpdate(true)
-          statusUpdate("in-use")
-        }}
-      />
+      /> */}
+
+        <Pressable
+          style={styles.button}
+          onPress={() => {
+            updateTime(23) // change time and end time
+            timerStateUpdate(true)
+            statusUpdate("in-use")
+          }}
+        >
+          <Text>23</Text>
+        </Pressable>
+
+        <Pressable
+          style={styles.button}
+          onPress={() => {
+            updateTime(26) // change time and end time
+            timerStateUpdate(true)
+            statusUpdate("in-use")
+          }}
+        >
+          <Text>26</Text>
+        </Pressable>
+
+        <Pressable
+          style={styles.button}
+          onPress={() => {
+            updateTime(29) // change time and end time
+            timerStateUpdate(true)
+            statusUpdate("in-use")
+          }}
+        >
+          <Text>29</Text>
+        </Pressable>
+      </View>
     </>
   )
 
@@ -152,29 +164,25 @@ function TimeForm(props: props) {
           timeToShow={["M", "S"]}
           onFinish={() => {
             // if state is in use -> change to pending
-            if (status === "in-use"){
+            if (status === "in-use") {
               // console.log("205: " + status)
               updateTime(10)
               statusUpdate("pending")
             }
-            // this part does not work, tried to figure out why -> when statusUpdates runs and goes from in-use to pending, 
+            // this part does not work, tried to figure out why -> when statusUpdates runs and goes from in-use to pending,
             //for some reason, the status here is null
-            else if (status === "pending"){
+            else if (status === "pending") {
               // console.log("207: " + status)
               updateTime(10)
               statusUpdate("available")
-             
-            }
-            else {
+            } else {
               // talk to everyone else, see if they can figure out the issue with it so I don't have to rely on this
               // or see if it's ok to rely on this. is there any circumstances where this is bad?
               // console.log("in else and status is: " + status)
               updateTime(10)
               statusUpdate("available")
             }
-
-          }
-          }
+          }}
         ></CountDown>
       </>
     )
@@ -184,21 +192,29 @@ function TimeForm(props: props) {
   ) {
     return (
       <>
-        <Text>{time}</Text>
-        <Button
-          title="45"
-          onPress={() => {
-            updateTime(45)
-            timerStateUpdate(true)
-          }}
-        />
-        <Button
-          title="70"
-          onPress={() => {
-            updateTime(70)
-            timerStateUpdate(true)
-          }}
-        />
+        <View>
+          <Pressable
+            style={styles.button}
+            onPress={() => {
+              updateTime(45) // change time and end time
+              timerStateUpdate(true)
+              statusUpdate("in-use")
+            }}
+          >
+            <Text>45</Text>
+          </Pressable>
+
+          <Pressable
+            style={styles.button}
+            onPress={() => {
+              updateTime(70) // change time and end time
+              timerStateUpdate(true)
+              statusUpdate("in-use")
+            }}
+          >
+            <Text>70</Text>
+          </Pressable>
+        </View>
       </>
     )
   } else if (props.machineType === "Dryer" && timerState === true) {
@@ -207,9 +223,8 @@ function TimeForm(props: props) {
         <Text>{time}</Text>
         <CountDown
           key={time} //makes countdown display current value of time instead of previous
-          until={(endTime - new Date().getTime()) * 60} //60 seconds in a minute
+          until={(endTime - new Date().getTime()) / 1000} //60 seconds in a minute
           timeToShow={["M", "S"]}
-          
         ></CountDown>
       </>
     )

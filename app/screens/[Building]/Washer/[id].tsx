@@ -6,6 +6,7 @@ import { doc, getDoc } from "firebase/firestore"
 import { useEffect, useState } from "react"
 import { useFonts } from "expo-font"
 import ScannerButton from "../../../../assets/images/scannerButton"
+import StateFormWeb from "../../../Components/stateFormCopy"
 
 const WasherPage = () => {
   const linkData = useGlobalSearchParams()
@@ -22,9 +23,9 @@ const WasherPage = () => {
 
   return (
     <>
-      <View>
+      <View style={{ flex: 4, backgroundColor: "#FFFFFF" }}>
         <Text style={{ fontSize: 30 }}>{title}</Text>
-        <StateForm building={building} machine={washer} />
+        <StateFormWeb building={building} machine={washer} />
       </View>
       <View
         style={{

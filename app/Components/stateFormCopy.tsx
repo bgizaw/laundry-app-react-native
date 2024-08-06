@@ -2,7 +2,7 @@ import { useState, useEffect } from "react"
 import database from "../firebase/firestoreInitialize"
 import { doc, updateDoc, onSnapshot } from "firebase/firestore"
 import TimeForm from "./timeForm"
-import { Button, Text, Platform, TouchableOpacity, View, Pressable } from "react-native"
+import { Button, Text, Platform, Pressable, View } from "react-native"
 import * as Linking from "expo-linking"
 import * as WebBrowser from "expo-web-browser"
 import OutOfOrderForm from "./outOfOrderForm"
@@ -60,14 +60,14 @@ function StateFormWeb(props: props) {
   }, [state])
 
   const openOutOfOrderForm = () => {
-    return(
-    <OutOfOrderForm 
-      machineType={props.machine.split(" ")[0]}
-      building={props.building}
-      machine={props.machine}
-    />
+    return (
+      <OutOfOrderForm
+        machineType={props.machine.split(" ")[0]}
+        building={props.building}
+        machine={props.machine}
+      />
     )
-  } 
+  }
 
   const updateState = (state: string) => {
     setState(state)
@@ -93,81 +93,75 @@ function StateFormWeb(props: props) {
   if (state === "available" && !outOfOrderDisplay) {
     return (
       <>
-      <View style = {styles.container}>
-          
-        <TouchableOpacity
-          style = {styles.button}
-          onPress={() => {
-            setState("in-use")
-          }}>
-          <Text> In-Use </Text>
-        </TouchableOpacity>
-          
-        
+        <View style={styles.container}>
+          <Pressable
+            style={styles.button}
+            onPress={() => {
+              setState("in-use")
+            }}
+          >
+            <Text> In-Use </Text>
+          </Pressable>
 
-        <TouchableOpacity
-          style = {styles.button}
-          onPress={() => {
-            openInCustomTab(workOrderLink)
-            setOutOfOrderDisplay(true)
-          }}>
-          <Text>"Out-Of-Order"</Text>
-          </TouchableOpacity>
-          </View>
+          <Pressable
+            style={styles.button}
+            onPress={() => {
+              openInCustomTab(workOrderLink)
+              setOutOfOrderDisplay(true)
+            }}
+          >
+            <Text>"Out-Of-Order"</Text>
+          </Pressable>
+        </View>
       </>
     )
   } else if (state === "available" && outOfOrderDisplay) {
     return (
       <>
-      <View style = {styles.container}>
-        <Pressable
-          style = {styles.button}
-        
-          onPress={() => {
-            updateState("in-use")
-          }}>
-          <Text> In-Use </Text>
-        </Pressable>
+        <View style={styles.container}>
+          <Pressable
+            style={styles.button}
+            onPress={() => {
+              updateState("in-use")
+            }}
+          >
+            <Text> In-Use </Text>
+          </Pressable>
 
-        
-
-        <OutOfOrderForm 
-      machineType={props.machine.split(" ")[0]}
-      building={props.building}
-      machine={props.machine}
-    />
-        <OutOfOrderDisplay
-        machineType={props.machine.split(" ")[0]}
-        building={props.building}
-        machine={props.machine}
-      />
-      </View>
-    </>
+          <OutOfOrderForm
+            machineType={props.machine.split(" ")[0]}
+            building={props.building}
+            machine={props.machine}
+          />
+          <OutOfOrderDisplay
+            machineType={props.machine.split(" ")[0]}
+            building={props.building}
+            machine={props.machine}
+          />
+        </View>
+      </>
     )
-
   } else if (state === "in-use") {
     return (
       <>
         <Text>This machine is in use.</Text>
 
-        <View style = {styles.container}>
-        <TouchableOpacity
-          style = {styles.button}
-        
-          onPress={() => {
-            setState("available")
-            setStateAvailable()
-          }}>
-          <Text> Available </Text>
-          </TouchableOpacity>
-        
-        
+        <View style={styles.container}>
+          <Pressable
+            style={styles.button}
+            onPress={() => {
+              setState("available")
+              setStateAvailable()
+            }}
+          >
+            <Text> Available </Text>
+          </Pressable>
 
-        <TimeForm
-          machineType={props.machine.split(" ")[0]}
-          building={props.building}
-          machine={props.machine}
-        />
+          <TimeForm
+            machineType={props.machine.split(" ")[0]}
+            building={props.building}
+            machine={props.machine}
+          />
         </View>
       </>
     )
@@ -204,4 +198,4 @@ function StateFormWeb(props: props) {
   }
 }
 
-export default StateForm
+export default StateFormWeb
