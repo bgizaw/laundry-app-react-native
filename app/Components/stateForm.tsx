@@ -2,11 +2,12 @@ import { useState, useEffect } from "react"
 import database from "../firebase/firestoreInitialize"
 import { doc, updateDoc, onSnapshot } from "firebase/firestore"
 import TimeForm from "./timeForm"
-import { Button, Text, Platform } from "react-native"
+import { Button, Text, Platform, TouchableOpacity, View, Pressable } from "react-native"
 import * as Linking from "expo-linking"
 import * as WebBrowser from "expo-web-browser"
 import OutOfOrderForm from "./outOfOrderForm"
 import OutOfOrderDisplay from "./outOfOrderDisplay"
+import styles from "./buttonStyles"
 
 const workOrderLink = `https://pomona.webtma.com/?tkn=zR_pJHKh9JP45Xg9RPojIH2irxyiuxkXCrWY6I1oLlEMORHMSIfRo8C50hsmXjJNq3CC4sh
 He74IdVLeZelp9ZkWK50Q_luNhA7JFwQ6Lx2OfJd_pFK2rvhrrqeXGqLQywWvEnvUiNo4WgeJcevA2BSHiAXEKNTLwt39ZqtjT4fFs-oTtdZ1O0gv8UN-bLkhcSL7e
@@ -92,30 +93,44 @@ function StateForm(props: props) {
   if (state === "available" && !outOfOrderDisplay) {
     return (
       <>
-        <Button
-          title="In-Use"
+      <View style = {styles.container}>
+          
+        <TouchableOpacity
+          style = {styles.button}
           onPress={() => {
             setState("in-use")
-          }}
-        />
-        <Button
-          title="Out-Of-Order"
+          }}>
+          <Text> In-Use </Text>
+        </TouchableOpacity>
+          
+        
+
+        <TouchableOpacity
+          style = {styles.button}
           onPress={() => {
             openInCustomTab(workOrderLink)
             setOutOfOrderDisplay(true)
-          }}
-        />
+          }}>
+          <Text>"Out-Of-Order"</Text>
+          </TouchableOpacity>
+          </View>
       </>
     )
   } else if (state === "available" && outOfOrderDisplay) {
     return (
       <>
-        <Button
-          title="In-Use"
+      <View style = {styles.container}>
+        <TouchableOpacity
+          style = {styles.button}
+        
           onPress={() => {
             updateState("in-use")
-          }}
-        />
+          }}>
+          <Text> In-Use </Text>
+        </TouchableOpacity>
+
+        
+
         <OutOfOrderForm 
       machineType={props.machine.split(" ")[0]}
       building={props.building}
@@ -126,6 +141,7 @@ function StateForm(props: props) {
         building={props.building}
         machine={props.machine}
       />
+      </View>
     </>
     )
 
@@ -133,49 +149,66 @@ function StateForm(props: props) {
     return (
       <>
         <Text>This machine is in use.</Text>
-        <Button
-          title="Available"
+
+        <View style = {styles.container}>
+        <TouchableOpacity
+          style = {styles.button}
+        
           onPress={() => {
             setState("available")
             setStateAvailable()
-          }}
-        />
+          }}>
+          <Text> Available </Text>
+          </TouchableOpacity>
+        
+        
+
         <TimeForm
           machineType={props.machine.split(" ")[0]}
           building={props.building}
           machine={props.machine}
         />
+        </View>
       </>
     )
   } else if (state === "pending") {
     return (
-      <>
+      <View>
         <Text>{state}</Text>
-        <Button
-          title="Available"
+        
+        <TouchableOpacity
+          style = {styles.button}
+        
           onPress={() => {
             setState("available")
-          }}
-        />
-        <Button
-          title="In-Use"
+            setStateAvailable()
+          }}>
+          <Text> Available </Text>
+          </TouchableOpacity>
+
+        <TouchableOpacity
+          style = {styles.button}
           onPress={() => {
             setState("in-use")
-          }}
-        />
-        <Button
-          title="Out-Of-Order"
+          }}>
+          <Text> In-Use </Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style = {styles.button}
           onPress={() => {
             openInCustomTab(workOrderLink)
-            openOutOfOrderForm()
-          }}
-        />
+            setOutOfOrderDisplay(true)
+          }}>
+          <Text>"Out-Of-Order"</Text>
+          </TouchableOpacity>
+          
         <TimeForm
           machineType={props.machine.split(" ")[0]}
           building={props.building}
           machine={props.machine}
         />
-      </>
+      </View>
     )
   }
 }

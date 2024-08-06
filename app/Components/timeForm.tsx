@@ -1,8 +1,9 @@
 import { doc, onSnapshot, updateDoc } from "firebase/firestore"
 import { useState, useEffect } from "react"
-import { Button, Text } from "react-native"
+import { Button, Text, TouchableOpacity, View, Pressable } from "react-native"
 import database from "../firebase/firestoreInitialize"
 import CountDown from "react-native-countdown-component"
+import styles from "./buttonStyles"
 
 type props = {
   machineType: string
@@ -96,38 +97,46 @@ function TimeForm(props: props) {
 
   const washerTimeButtons = (
     <>
-      <Button
+    <View style = {styles.container}>
+      {/* <Button
         title="0"
         onPress={() => {
           updateTime(0)
           timerStateUpdate(false)
           console.log("state changed in button")
         }}
-      />
-      <Button
-        title="23"
+      /> */}
+      
+      <TouchableOpacity
+        style = {styles.button}
         onPress={() => {
           updateTime(23) // change time and end time
           timerStateUpdate(true)
           statusUpdate("in-use")
-        }}
-      />
-      <Button
-        title="26"
+        }}>
+        <Text>23</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        style = {styles.button}
         onPress={() => {
-          updateTime(26)
+          updateTime(26) // change time and end time
           timerStateUpdate(true)
           statusUpdate("in-use")
-        }}
-      />
-      <Button
-        title="29"
+        }}>
+        <Text>26</Text>
+        </TouchableOpacity>
+        
+        <TouchableOpacity
+        style = {styles.button}
         onPress={() => {
-          updateTime(29)
+          updateTime(29) // change time and end time
           timerStateUpdate(true)
           statusUpdate("in-use")
-        }}
-      />
+        }}>
+        <Text>29</Text>
+        </TouchableOpacity>
+      </View>
     </>
   )
 
@@ -184,21 +193,27 @@ function TimeForm(props: props) {
   ) {
     return (
       <>
-        <Text>{time}</Text>
-        <Button
-          title="45"
-          onPress={() => {
-            updateTime(45)
-            timerStateUpdate(true)
-          }}
-        />
-        <Button
-          title="70"
-          onPress={() => {
-            updateTime(70)
-            timerStateUpdate(true)
-          }}
-        />
+      <View>
+        <TouchableOpacity
+        style = {styles.button}
+        onPress={() => {
+          updateTime(45) // change time and end time
+          timerStateUpdate(true)
+          statusUpdate("in-use")
+        }}>
+        <Text>45</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+        style = {styles.button}
+        onPress={() => {
+          updateTime(70) // change time and end time
+          timerStateUpdate(true)
+          statusUpdate("in-use")
+        }}>
+        <Text>70</Text>
+        </TouchableOpacity>
+        </View>
       </>
     )
   } else if (props.machineType === "Dryer" && timerState === true) {
@@ -207,7 +222,7 @@ function TimeForm(props: props) {
         <Text>{time}</Text>
         <CountDown
           key={time} //makes countdown display current value of time instead of previous
-          until={(endTime - new Date().getTime()) * 60} //60 seconds in a minute
+          until={(endTime - new Date().getTime()) / 1000} //60 seconds in a minute
           timeToShow={["M", "S"]}
           
         ></CountDown>
