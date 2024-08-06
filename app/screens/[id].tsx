@@ -9,7 +9,7 @@ import {
   ScrollView,
   Image,
 } from "react-native"
-import { collection, getDocs, onSnapshot } from "firebase/firestore"
+import { collection, enableIndexedDbPersistence, getDocs, onSnapshot } from "firebase/firestore"
 import database from "../firebase/firestoreInitialize"
 import Building from "../Classes/Building"
 import { useEffect, useState } from "react"
@@ -29,9 +29,14 @@ interface StatesType {
   [key: string]: string // Adjust the type of the value as needed
 }
 
+interface EndTimesObj {
+  [key: string]: number // Adjust the type of the value as needed
+}
+
 const BuildingPage = () => {
   const [loading, setLoading] = useState(true)
   const [machines, setMachines] = useState<{ id: string }[]>([])
+  const [endTimes, setEndTimes] = useState<EndTimesObj>({})
   const [states, setStates] = useState<StatesType>({})
   const stateHues = {
     available: "#9BFFBD",
@@ -78,6 +83,18 @@ const BuildingPage = () => {
         }))
       })
     })
+
+     // track machine states
+     const timeUpdates = onSnapshot(buildingCollection, snapshot => {
+      snapshot.docs.forEach(doc => {
+        // Object.assign(states, { [doc.id]: doc.data().status })
+        setEndTimes(prevEndTimes => ({
+          ...prevEndTimes,
+          [doc.id]: doc.data().endTime,
+        }))
+      })
+    })
+    console.log(endTimes)
   }, [])
 
   // height and width of icons will be based on screen size (icons are squares so width can represent height as well)
