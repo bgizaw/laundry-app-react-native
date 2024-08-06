@@ -1,4 +1,4 @@
-import { Text, View, Image } from "react-native"
+import { Text, View, Image, Platform } from "react-native"
 import { Link, useGlobalSearchParams } from "expo-router"
 import StateForm from "../../../Components/stateForm"
 import database from "../../../firebase/firestoreInitialize"
@@ -21,30 +21,57 @@ const WasherPage = () => {
     "jaldi-regular": require("../../../../assets/fonts/Jaldi-Regular.ttf"),
   })
 
-  return (
-    <>
-      <View style={{ flex: 4, backgroundColor: "#FFFFFF" }}>
-        <Text style={{ fontSize: 30 }}>{title}</Text>
-        <StateFormWeb building={building} machine={washer} />
-      </View>
-      <View
-        style={{
-          padding: 50,
-          flex: 1,
-          justifyContent: "flex-end",
-          flexDirection: "row",
-          backgroundColor: "#FFFFFF",
-        }}
-      >
-        <Link
-          href={"../../qrCodeScan/qrCodeScanner"}
-          style={{ padding: 30, bottom: 30, left: 20 }}
+  if (Platform.OS === "web") {
+    return (
+      <>
+        <View style={{ backgroundColor: "#FFFFFF" }}>
+          <Text style={{ fontSize: 30 }}>{title}</Text>
+          <StateFormWeb building={building} machine={washer} />
+        </View>
+        <View
+          style={{
+            padding: 50,
+            flex: 1,
+            justifyContent: "flex-end",
+            flexDirection: "row",
+            backgroundColor: "#FFFFFF",
+          }}
         >
-          <ScannerButton />
-        </Link>
-      </View>
-    </>
-  )
+          <Link
+            href={"../../qrCodeScan/qrCodeScanner"}
+            style={{ padding: 30, bottom: 30, left: 20 }}
+          >
+            <ScannerButton />
+          </Link>
+        </View>
+      </>
+    )
+  } else {
+    return (
+      <>
+        <View style={{ flex: 4, backgroundColor: "#FFFFFF" }}>
+          <Text style={{ fontSize: 30 }}>{title}</Text>
+          <StateFormWeb building={building} machine={washer} />
+        </View>
+        <View
+          style={{
+            padding: 50,
+            flex: 1,
+            justifyContent: "flex-end",
+            flexDirection: "row",
+            backgroundColor: "#FFFFFF",
+          }}
+        >
+          <Link
+            href={"../../qrCodeScan/qrCodeScanner"}
+            style={{ padding: 30, bottom: 30, left: 20 }}
+          >
+            <ScannerButton />
+          </Link>
+        </View>
+      </>
+    )
+  }
 }
 
 export default WasherPage
