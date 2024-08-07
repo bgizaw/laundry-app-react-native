@@ -2,13 +2,12 @@ import { useState, useEffect } from "react"
 import database from "../firebase/firestoreInitialize"
 import { doc, updateDoc, onSnapshot } from "firebase/firestore"
 import TimeForm from "./timeForm"
-import { Button, Text, Platform, View, Pressable } from "react-native"
+import { Button, Text, Platform, Pressable, View } from "react-native"
 import * as Linking from "expo-linking"
 import * as WebBrowser from "expo-web-browser"
 import OutOfOrderForm from "./outOfOrderForm"
 import OutOfOrderDisplay from "./outOfOrderDisplay"
 import styles from "./buttonStyles"
-import StateFormWeb from "./stateFormCopy"
 
 const workOrderLink = `https://pomona.webtma.com/?tkn=zR_pJHKh9JP45Xg9RPojIH2irxyiuxkXCrWY6I1oLlEMORHMSIfRo8C50hsmXjJNq3CC4sh
 He74IdVLeZelp9ZkWK50Q_luNhA7JFwQ6Lx2OfJd_pFK2rvhrrqeXGqLQywWvEnvUiNo4WgeJcevA2BSHiAXEKNTLwt39ZqtjT4fFs-oTtdZ1O0gv8UN-bLkhcSL7e
@@ -34,7 +33,7 @@ type props = {
   machine: string
 }
 
-function StateForm(props: props) {
+function StateFormWeb(props: props) {
   const [state, setState] = useState<string | null>(null) //change to props.state when i figure out how to set state to state in firestore database
   const [timerState, changeTimerState] = useState<boolean | null>(null)
   const [endTime, setEndTime] = useState(0)
@@ -168,46 +167,35 @@ function StateForm(props: props) {
     )
   } else if (state === "pending") {
     return (
-      <View>
+      <>
         <Text>{state}</Text>
-
-        <Pressable
-          style={styles.button}
+        <Button
+          title="Available"
           onPress={() => {
             setState("available")
-            setStateAvailable()
           }}
-        >
-          <Text> Available </Text>
-        </Pressable>
-
-        <Pressable
-          style={styles.button}
+        />
+        <Button
+          title="In-Use"
           onPress={() => {
             setState("in-use")
           }}
-        >
-          <Text> In-Use </Text>
-        </Pressable>
-
-        <Pressable
-          style={styles.button}
+        />
+        <Button
+          title="Out-Of-Order"
           onPress={() => {
             openInCustomTab(workOrderLink)
-            setOutOfOrderDisplay(true)
+            openOutOfOrderForm()
           }}
-        >
-          <Text>"Out-Of-Order"</Text>
-        </Pressable>
-
+        />
         <TimeForm
           machineType={props.machine.split(" ")[0]}
           building={props.building}
           machine={props.machine}
         />
-      </View>
+      </>
     )
   }
 }
 
-export default StateForm
+export default StateFormWeb

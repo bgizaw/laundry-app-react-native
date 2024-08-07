@@ -1,10 +1,11 @@
 // buttons that have all the reasons -> link to firebase with the date (in array form)
-import { Button, TextInput, View } from "react-native"
+import { Button, TextInput, View, TouchableOpacity } from "react-native"
 import { doc, updateDoc, onSnapshot, getDoc } from "firebase/firestore"
 import database from "../firebase/firestoreInitialize"
 import { useState, useEffect } from "react"
 import { Text } from "react-native"
 import { requireOptionalNativeModule } from "expo"
+import styles from "./buttonStyles"
 
 type props = {
     machineType: string
@@ -117,25 +118,32 @@ const OutOfOrderForm = (props: props) => {
     if (props.machineType == "Washer"){
         return (
             <>
-            <Button
-            title="Machine is blocked off"
-            onPress={() => {
-                handleComplaint("blockedOffNote")
-            }}
-          />
-          <Button
-            title="Clothes went missing"
+        <View style = {styles.container}>
+            <TouchableOpacity
+                style = {styles.button}
+                onPress={() => {
+                    handleComplaint("blockedOffNote")
+                }}>
+            <Text>Machine is blocked off</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+            style = {styles.button}
             onPress={() => {
                 handleComplaint("missingClothes")
                 console.log(dates, numComplaints)
-            }}
-          />
-          <Button
-            title="Clothes have an odor"
+            }}>
+            <Text>Clothes went missing</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+            style = {styles.button}
             onPress={() => {
                 handleComplaint("odor")
-            }}
-          />
+            }}>
+            <Text>Clothes have an odor</Text>
+        </TouchableOpacity>
+
         <View>
             {otherTextInputVisible ? (
             <TextInput
@@ -145,48 +153,63 @@ const OutOfOrderForm = (props: props) => {
                 onSubmitEditing={() => handleOther(otherText)}
             />
         ) : (
-            <Button
-                title="Other"
-                onPress= {() => setOtherTextInputVisible(true)}
-            />
+            <TouchableOpacity
+            style = {styles.button}
+                onPress= {() => setOtherTextInputVisible(true)}>
+                <Text>Other</Text>
+            </TouchableOpacity>
         )}
+        </View>
         </View>
         </>
     )}
     else if (props.machineType == "Dryer"){
         return (
             <>
-            <Button
-            title="Machine is blocked off"
-            onPress={() => {
-                handleComplaint("blockedOffNote")
-            }}
-          />
-          <Button
-            title="Clothes went missing"
+            <View style = {styles.container}>
+            <TouchableOpacity
+                style = {styles.button}
+                onPress={() => {
+                    handleComplaint("blockedOffNote")
+                }}>
+            <Text>Machine is blocked off</Text>
+        </TouchableOpacity>
+
+          <TouchableOpacity
+            style = {styles.button}
             onPress={() => {
                 handleComplaint("missingClothes")
                 console.log(dates, numComplaints)
-            }}
-          />
-          <Button
-            title="Clothes have an odor"
+            }}>
+            <Text>Clothes went missing</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+            style = {styles.button}
             onPress={() => {
                 handleComplaint("odor")
-            }}
-          />
-          <Button
-            title="Clothes didn't fully dry"
+            }}>
+            <Text>Clothes have an odor</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+            style = {styles.button}
+            
             onPress={() => {
                 handleComplaint("didntDry")
-            }}
-          />
-          <Button
-            title="Clothes were burnt"
+            }}>
+            <Text>Clothes didn't fully dry</Text>
+        </TouchableOpacity>
+
+
+        <TouchableOpacity
+            style = {styles.button}
             onPress={() => {
                 handleComplaint("burnt")
-            }}
-          />
+            }}>
+            <Text>Clothes were burnt</Text>
+        </TouchableOpacity>
+
         {/* otherTextInputVisible ? (
             <TextInput
                 onChangeText={setOtherText}
@@ -200,6 +223,7 @@ const OutOfOrderForm = (props: props) => {
             />
         ) */}
           <Text>{numComplaints}</Text>
+          </View>
         </>
         )
     }

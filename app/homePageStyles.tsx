@@ -10,7 +10,6 @@ if (
 } else {
   width = Dimensions.get("window").width * 0.4
 }
-console.log(width)
 
 const styles = StyleSheet.create({
   container: {
