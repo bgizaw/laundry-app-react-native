@@ -4,12 +4,13 @@ import Svg, { SvgProps, Rect, Path, Text } from "react-native-svg"
 const MachineIconRect = ({
   width = 92,
   height = 95,
-  text = "unknown",
+  text,
   ...props
-}: SvgProps & { width?: number; height?: number; text?: string }) => {
+}: SvgProps & { width?: number; height?: number; text: string }) => {
   // scaling factors
   const scaleX = width / 92
   const scaleY = height / 95
+  console.log(text)
 
   return (
     <Svg width={width} height={height} fill="none" {...props}>

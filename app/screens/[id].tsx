@@ -17,6 +17,7 @@ import styles from "./laundryRoomStyles"
 import { useFonts } from "expo-font"
 import ScannerButton from "../../assets/images/scannerButton"
 import MachineIcon from "../../assets/images/machineIcon"
+import CountDown from "react-native-countdown-component"
 
 const TrackBuildingName = (buildingName: string) => {
   let collectionRef = collection(database, buildingName)
@@ -39,7 +40,6 @@ const BuildingPage = () => {
     pending: "#A4A4A4",
     outOfOrder: "#FFB629",
   }
-  // const states = {}
 
   let buildingNameObject = useLocalSearchParams()
   let nameOfBuilding = buildingNameObject.id as string
@@ -121,33 +121,47 @@ const BuildingPage = () => {
   // return list of linked washer logos
   const washerLogos = () => {
     return washers.map(washer => (
-      <Link
-        key={washer}
-        href={{
-          pathname: `./[Building]/Washer/${washer}`,
-          params: { Building: nameOfBuilding },
-        }}
-        style={styles.machineLink}
-      >
-        <View>
-          <Text
-            style={{
-              fontFamily: "jaldi-bold",
-              fontSize: 25,
-              textAlign: "center",
-            }}
-          >
-            {washer}
-          </Text>
-          <MachineIcon
-            fill={stringStateToFillValue(states[washer])}
-            key={states[washer]}
-            width={width}
-            height={width}
-            text={states[washer]}
-          />
-        </View>
-      </Link>
+      <>
+        <Link
+          key={washer}
+          href={{
+            pathname: `./[Building]/Washer/${washer}`,
+            params: { Building: nameOfBuilding },
+          }}
+          style={styles.machineLink}
+        >
+          <View>
+            <Text
+              style={{
+                fontFamily: "jaldi-bold",
+                fontSize: 25,
+                textAlign: "center",
+              }}
+            >
+              {washer}
+            </Text>
+            <MachineIcon
+              fill={stringStateToFillValue(states[washer])}
+              key={states[washer]}
+              width={width}
+              height={width}
+              // text={states[washer]}
+            />
+            <CountDown
+              until={120}
+              timeToShow={["M", "S"]}
+              style={{
+                position: "absolute",
+                top: 100,
+                bottom: 0,
+                left: 0,
+                right: 0,
+              }}
+              digitStyle={{ backgroundColor: stateHues.available }}
+            ></CountDown>
+          </View>
+        </Link>
+      </>
     ))
   }
 
