@@ -3,6 +3,7 @@ import { Text, View, StyleSheet, Button, Platform } from "react-native"
 import { CameraView, Camera } from "expo-camera"
 import { useRouter } from "expo-router"
 import { useFonts } from "expo-font"
+import { transparent } from "react-native-paper/lib/typescript/styles/themes/v2/colors"
 
 function QrCodeScanner() {
   const [hasPermission, setHasPermission] = useState<boolean | null>(null)
@@ -68,7 +69,7 @@ function QrCodeScanner() {
           barcodeScannerSettings={{
             barcodeTypes: ["qr"],
           }}
-          style={StyleSheet.absoluteFillObject}
+          style={styles.camera}
         />
         {scanned && (
           <Button
@@ -86,6 +87,14 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "column",
     justifyContent: "center",
+    backgroundColor: "#FFFFFF",
+    alignItems: "center",
+  },
+  camera: {
+    width: 250,
+    height: 250,
+    borderRadius: 40,
+    bottom: 30,
   },
 })
 
