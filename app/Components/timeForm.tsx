@@ -55,7 +55,6 @@ function TimeForm(props: props) {
   }, [])
 
   useEffect(() => {
-    console.log(timerState, "timer state")
     if (timerState != null) {
       timeUpdate(time)
     }
@@ -77,7 +76,6 @@ function TimeForm(props: props) {
   const statusUpdate = (newstatus: string) => {
     if (newstatus != "" || newstatus != null) {
       setStatus(newstatus)
-      console.log(newstatus)
     }
   }
 

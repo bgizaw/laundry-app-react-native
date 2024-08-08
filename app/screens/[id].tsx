@@ -18,6 +18,7 @@ import { useFonts } from "expo-font"
 import ScannerButton from "../../assets/images/scannerButton"
 import MachineIcon from "../../assets/images/machineIcon"
 import CountDown from "react-native-countdown-component"
+import React from "react"
 
 const TrackBuildingName = (buildingName: string) => {
   let collectionRef = collection(database, buildingName)
@@ -30,10 +31,16 @@ interface StatesType {
   [key: string]: string // Adjust the type of the value as needed
 }
 
+interface EndTimesObj {
+  [key: string]: number // Adjust the type of the value as needed
+}
+
 const BuildingPage = () => {
   const [loading, setLoading] = useState(true)
   const [machines, setMachines] = useState<{ id: string }[]>([])
   const [states, setStates] = useState<StatesType>({})
+  const [endTimes, setEndTimes] = useState<EndTimesObj>({})
+
   const stateHues = {
     available: "#9BFFBD",
     inUse: "#FF6B6B",
@@ -77,6 +84,18 @@ const BuildingPage = () => {
           [doc.id]: doc.data().status,
         }))
       })
+      console.log(states)
+    })
+
+    const timeUpdates = onSnapshot(buildingCollection, snapshot => {
+      snapshot.docs.forEach(doc => {
+        // Object.assign(states, { [doc.id]: doc.data().status })
+        setEndTimes(prevEndTimes => ({
+          ...prevEndTimes,
+          [doc.id]: doc.data().endTime,
+        }))
+      })
+      console.log(endTimes)
     })
   }, [])
 
@@ -121,9 +140,8 @@ const BuildingPage = () => {
   // return list of linked washer logos
   const washerLogos = () => {
     return washers.map(washer => (
-      <>
+      <React.Fragment key={washer}>
         <Link
-          key={washer}
           href={{
             pathname: `./[Building]/Washer/${washer}`,
             params: { Building: nameOfBuilding },
@@ -145,9 +163,11 @@ const BuildingPage = () => {
               key={states[washer]}
               width={width}
               height={width}
-              // text={states[washer]}
+              text={states[washer]}
+              building={nameOfBuilding}
+              machine={washer}
             />
-            <CountDown
+            {/* <CountDown
               until={120}
               timeToShow={["M", "S"]}
               style={{
@@ -158,43 +178,46 @@ const BuildingPage = () => {
                 right: 0,
               }}
               digitStyle={{ backgroundColor: stateHues.available }}
-            ></CountDown>
+            ></CountDown> */}
           </View>
         </Link>
-      </>
+      </React.Fragment>
     ))
   }
 
   // return list of linked dryer logos
   const dryerLogos = () => {
     return dryers.map(dryer => (
-      <Link
-        key={dryer}
-        href={{
-          pathname: `./[Building]/Dryer/${dryer}`,
-          params: { Building: nameOfBuilding },
-        }}
-        style={styles.machineLink}
-      >
-        <View>
-          <Text
-            style={{
-              fontFamily: "jaldi-bold",
-              fontSize: 25,
-              textAlign: "center",
-            }}
-          >
-            {dryer}
-          </Text>
-          <MachineIcon
-            fill={stringStateToFillValue(states[dryer])}
-            key={states[dryer]}
-            width={width}
-            height={width}
-            text={states[dryer]}
-          />
-        </View>
-      </Link>
+      <React.Fragment key={dryer}>
+        <Link
+          href={{
+            pathname: `./[Building]/Dryer/${dryer}`,
+            params: { Building: nameOfBuilding },
+          }}
+          style={styles.machineLink}
+        >
+          <View>
+            <Text
+              style={{
+                fontFamily: "jaldi-bold",
+                fontSize: 25,
+                textAlign: "center",
+              }}
+            >
+              {dryer}
+            </Text>
+            <MachineIcon
+              fill={stringStateToFillValue(states[dryer])}
+              key={states[dryer]}
+              width={width}
+              height={width}
+              text={states[dryer]}
+              building={nameOfBuilding}
+              machine={dryer}
+            />
+          </View>
+        </Link>
+      </React.Fragment>
     ))
   }
 

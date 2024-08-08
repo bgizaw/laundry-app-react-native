@@ -72,7 +72,6 @@ function StateForm(props: props) {
 
   const updateState = (state: string) => {
     setState(state)
-    console.log("in stateform: " + state)
   }
 
   // update firestore machine data
