@@ -221,8 +221,8 @@ function TimeForm(props: props) {
         <Text>{time}</Text>
         <CountDown
           key={time} //makes countdown display current value of time instead of previous
-          until={(endTime - new Date().getTime()) / 1000} //60 seconds in a minute
-          timeToShow={["M", "S"]}
+          until={endTime - new Date().getTime() / 1000} //60 seconds in a minute
+          timeToShow={["H", "M", "S"]}
         ></CountDown>
       </>
     )

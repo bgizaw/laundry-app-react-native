@@ -20,7 +20,10 @@ const MachineIconRect = ({
   building: string
   machine: string
 }) => {
-  const [endTime, setEndTime] = useState<number>(0)
+  const [endTime, setEndTime] = useState<number | null>(null)
+  const [timerStarted, setTimerStarted] = useState<boolean>(false)
+  const [timerLength, setTimerLength] = useState<number>(0)
+  const [displayText, setDisplayText] = useState<boolean>(false)
 
   useEffect(() => {
     const fetchMachineDetails = async () => {
@@ -29,6 +32,9 @@ const MachineIconRect = ({
         console.log("before set send time", endTime)
         // use this end time to set the until time for the countdown
         setEndTime(snapshot.data()!.endTime)
+        if (snapshot.data()!.endTime > 0) {
+          setTimerStarted(true)
+        }
         console.log("after set end time", endTime)
         console.log(snapshot.id, snapshot.data())
       })
@@ -36,7 +42,20 @@ const MachineIconRect = ({
     fetchMachineDetails()
   }, [])
 
-  const timerLength = endTime - Date.now()
+  useEffect(() => {
+    if (endTime !== null) {
+      console.log(endTime, "useeffect")
+      console.log(Date.now(), "useeffect now")
+      const currentTimeInSeconds = Date.now() / 1000
+      const calculatedTimerLength = Math.floor(endTime - currentTimeInSeconds)
+      console.log(calculatedTimerLength, "difference")
+      setTimerLength(calculatedTimerLength)
+    }
+
+    if (text !== null && text !== "in-use") {
+      setDisplayText(true)
+    }
+  }, [endTime])
 
   // scaling factors
   const scaleX = width / 92
@@ -136,17 +155,34 @@ const MachineIconRect = ({
           alignItems: "center",
         }}
       >
-        <CountDown
-          until={endTime - Date.now()}
-          timeToShow={["M", "S"]}
-          digitStyle={{
-            backgroundColor: backgroundColor,
-          }}
-          timeLabels={{ m: undefined, s: undefined }}
-          showSeparator
-          size={width / 10}
-          digitTxtStyle={{ fontSize: width / 7, color: "#000000" }}
-        />
+        {timerStarted && (
+          <CountDown
+            key={timerLength}
+            until={timerLength}
+            timeToShow={["M", "S"]}
+            digitStyle={{
+              backgroundColor: backgroundColor,
+            }}
+            timeLabels={{ m: undefined, s: undefined }}
+            showSeparator
+            size={width / 10}
+            digitTxtStyle={{ fontSize: width / 7, color: "#000000" }}
+          />
+        )}
+        {displayText && (
+          <Text
+            x={width / 2}
+            y={height / 2}
+            fontSize={14 * Math.min(scaleX, scaleY)}
+            fontWeight="bold"
+            fill="#000"
+            textAnchor="middle"
+            alignmentBaseline="central"
+            fontFamily="jaldi-bold"
+          >
+            {text}
+          </Text>
+        )}
       </View>
     </View>
   )

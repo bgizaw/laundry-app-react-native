@@ -81,7 +81,9 @@ const WasherPage = () => {
             </View>
             <View style={{ flex: 1, height: 1, backgroundColor: "black" }} />
           </View>
-          <StateFormWeb building={building} machine={washer} />
+          <View style={{ flex: 5, marginTop: 50, marginBottom: 100 }}>
+            <StateFormWeb building={building} machine={washer} />
+          </View>
         </View>
         <View
           style={{
